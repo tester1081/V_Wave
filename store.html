@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VeltraWave - Digital Services</title>
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+        --primary-color: #1e40af;
+        --secondary-color: #3b82f6;
+        --accent-color: #60a5fa;
+        --light-bg: #f8fafc;
+        --dark-text: #1e293b;
+        --light-text: #f8fafc;
+        --border-color: #e2e8f0;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition-speed: 0.3s;
+        --grey-text: #64748b;
+        --us-color: #3b5998;
+        --canada-color: #c8102e;
+        --uk-color: #012169;
+        --mtn-color: #ffcc00;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        min-height: 100vh;
+        position: relative;
+        padding-bottom: 70px; /* Space for bottom nav */
+    }
+
+    /* Container Styles */
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        padding-bottom: 80px;
+    }
+
+    /* Header Styles */
+    .page-header {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        margin-bottom: 1rem;
+    }
+
+    .back-button {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: var(--dark-text);
+        margin-right: 1rem;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .back-button:active {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .page-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    /* Service Card Styles */
+    .service-card {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .service-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .service-content {
+        padding: 1.5rem;
+    }
+
+    .service-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .service-description {
+        color: var(--grey-text);
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+
+    .service-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .service-button:hover {
+        background-color: #1e3a8a;
+    }
+
+    .service-button.mtn {
+        background-color: var(--mtn-color);
+        color: #000;
+    }
+
+    .service-button.mtn:hover {
+        background-color: #e6b800;
+    }
+
+    .mtn-badge {
+        background-color: var(--mtn-color);
+        color: #000;
+        font-weight: bold;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+    }
+
+    /* Country Slider Styles */
+    .country-slider-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .country-slider {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .country-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .country-option {
+        flex: 0 0 80%;
+        scroll-snap-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .country-option.selected {
+        border-color: var(--primary-color);
+        background-color: #eff6ff;
+    }
+
+    .country-flag {
+        width: 60px;
+        height: 40px;
+        border-radius: 0.25rem;
+        margin-bottom: 1rem;
+        object-fit: cover;
+    }
+
+    .country-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .country-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .feature-tag {
+        background-color: #f1f5f9;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        color: var(--grey-text);
+    }
+
+    /* Location Selection Styles */
+    .location-selection {
+        margin-bottom: 1.5rem;
+    }
+
+    .location-option {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: var(--card-shadow);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .location-option.selected {
+        border-color: var(--primary-color);
+        background-color: #eff6ff;
+    }
+
+    .location-name {
+        font-weight: 500;
+    }
+
+    .location-code {
+        color: var(--grey-text);
+        font-size: 0.9rem;
+    }
+
+    /* Plan Selection Styles */
+    .plan-selection {
+        margin-bottom: 1.5rem;
+    }
+
+    .plan-category {
+        margin-bottom: 1.5rem;
+    }
+
+    .plan-category-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .plan-category-description {
+        color: var(--grey-text);
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .plan-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .plan-option {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: var(--card-shadow);
+        padding: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+    }
+
+    .plan-option.selected {
+        border-color: var(--primary-color);
+        background-color: #eff6ff;
+    }
+
+    .plan-duration {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .plan-usage {
+        font-size: 0.8rem;
+        color: var(--grey-text);
+        margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+        display: flex;
+        align-items: baseline;
+    }
+
+    .price-currency {
+        font-size: 1rem;
+        margin-right: 0.25rem;
+        font-weight: 600;
+    }
+
+    .price-amount {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .price-decimal {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .plan-features {
+        margin-top: 1rem;
+        font-size: 0.8rem;
+        color: var(--grey-text);
+    }
+
+    .plan-feature {
+        margin-bottom: 0.25rem;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .feature-icon {
+        margin-right: 0.5rem;
+        color: var(--success-color);
+        flex-shrink: 0;
+    }
+
+    /* Purchase Summary Styles */
+    .purchase-summary {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .summary-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+    }
+
+    .summary-label {
+        color: var(--grey-text);
+    }
+
+    .summary-value {
+        font-weight: 500;
+    }
+
+    .summary-total {
+        border-top: 1px solid var(--border-color);
+        margin-top: 1rem;
+        padding-top: 1rem;
+        font-weight: 600;
+    }
+
+    .summary-total .summary-value {
+        color: var(--primary-color);
+        font-size: 1.1rem;
+    }
+
+    /* Payment Options Styles */
+    .payment-options {
+        margin-bottom: 1.5rem;
+    }
+
+    .payment-option {
+        background-color: white;
+        border-radius: 0.75rem;
+        box-shadow: var(--card-shadow);
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        display: flex;
+        align-items: center;
+    }
+
+    .payment-option.selected {
+        border-color: var(--primary-color);
+        background-color: #eff6ff;
+    }
+
+    .payment-icon {
+        margin-right: 1rem;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .payment-details {
+        flex: 1;
+    }
+
+    .payment-name {
+        font-weight: 500;
+    }
+
+    .payment-description {
+        font-size: 0.8rem;
+        color: var(--grey-text);
+    }
+
+    /* Disclaimer Styles */
+    .disclaimer {
+        background-color: #fff1f2;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid var(--danger-color);
+    }
+
+    .disclaimer-title {
+        font-weight: 600;
+        color: var(--danger-color);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .disclaimer-icon {
+        margin-right: 0.5rem;
+    }
+
+    .disclaimer-text {
+        font-size: 0.9rem;
+        color: #9f1239;
+        line-height: 1.5;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        font-size: 1rem;
+    }
+
+    .nav-button-back {
+        background-color: #f1f5f9;
+        color: var(--dark-text);
+    }
+
+    .nav-button-next {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .nav-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* Step Indicator */
+    .step-indicator {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .step {
+        width: 20%;
+        height: 4px;
+        background-color: #e2e8f0;
+        margin: 0 2px;
+        border-radius: 2px;
+        transition: background-color 0.3s ease;
+    }
+
+    .step.active {
+        background-color: var(--primary-color);
+    }
+
+    .step.completed {
+        background-color: var(--success-color);
+    }
+
+    /* Section Styles */
+    .section {
+        display: none;
+    }
+
+    .section.active {
+        display: block;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--dark-text);
+    }
+
+    .section-description {
+        color: var(--grey-text);
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+
+    /* Toast Notification */
+    .toast {
+        position: fixed;
+        right: -300px;
+        top: 20px;
+        padding: 12px 24px;
+        background-color: #333;
+        color: white;
+        border-radius: 6px;
+        font-size: 14px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s ease-in-out;
+        max-width: 280px;
+        display: flex;
+        align-items: center;
+    }
+
+    .toast.show {
+        right: 20px;
+    }
+
+    .toast.success {
+        background-color: var(--success-color);
+    }
+
+    .toast.error {
+        background-color: var(--danger-color);
+    }
+
+    .toast-icon {
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-around;
+        padding: 0.75rem 0;
+        box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        border-top: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.7rem;
+        transition: color var(--transition-speed);
+    }
+
+    .nav-item.active {
+        color: var(--primary-color);
+    }
+
+    .nav-icon {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+        position: relative;
+    }
+
+    .nav-item.active .nav-icon::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 480px) {
+        .plan-options {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <!-- Store Page -->
+    <section id="storePage" class="section active">
+        <div class="page-header">
+            <button class="back-button" onclick="goToDashboard()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="page-title">VeltraWave Store</h1>
+        </div>
+
+        <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1523206489230-c012c64b2b48?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Foreign Phone Numbers" class="service-image">
+            <div class="service-content">
+                <h2 class="service-title">Buy Foreign Phone Numbers</h2>
+                <p class="service-description">
+                    Launch your international business instantly with premium foreign phone numbers. Get authentic US, UK, or Canadian numbers with full voice, SMS, and MMS capabilities. Perfect for global entrepreneurs, remote teams, and privacy-conscious individuals.
+                </p>
+                <button class="service-button" onclick="goToSection('countrySelection')">Get Started</button>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Build Your Website" class="service-image">
+            <div class="service-content">
+                <h2 class="service-title">Build Your Website with VeltraWave <span class="mtn-badge">HOT</span></h2>
+                <p class="service-description">
+                    Transform your online presence with our professional website building service. Get a stunning, mobile-responsive website tailored to your business needs. Our expert designers and developers will create a custom site that drives conversions, ranks well on Google, and makes your brand stand out from the competition.
+                </p>
+                <button class="service-button" onclick="goToWebsiteBuilder()">Get Started</button>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Gaming Rank Boost" class="service-image">
+            <div class="service-content">
+                <h2 class="service-title">Gaming Rank Boost</h2>
+                <p class="service-description">
+                    Dominate the competition with VeltraWave's professional rank boosting services for COD and Free Fire. Our expert gamers will help you climb the ranks quickly and efficiently. Level up your gaming experience today!
+                </p>
+                <button class="service-button" onclick="showToast('Coming soon! Check back later.', false)">Learn More</button>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <img src="https://images.unsplash.com/photo-1595941069915-4ebc5197c14a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="MTN Special Data Deals" class="service-image">
+            <div class="service-content">
+                <h2 class="service-title">MTN Special Data Deals <span class="mtn-badge">NEW</span></h2>
+                <p class="service-description">
+                    Exclusive MTN data bundles at the cheapest rates available anywhere. Get high-speed data for browsing, streaming, gaming, and more. Available for all MTN users with instant delivery options.
+                </p>
+                <button class="service-button mtn" onclick="goToMTNDeals()">View Deals</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Country Selection -->
+    <section id="countrySelection" class="section">
+        <div class="page-header">
+            <button class="back-button" onclick="goToSection('storePage')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="page-title">Select Country</h1>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+        </div>
+
+        <h2 class="section-title">Choose a Country</h2>
+        <p class="section-description">Select the country for your new phone number. Each country offers different features and capabilities.</p>
+
+        <div class="country-slider-container">
+            <div class="country-slider">
+                <div class="country-option" data-country="US" data-code="+1" onclick="selectCountry(this, 'US')">
+                    <div style="background-color: #3b5998; color: white; display: inline-block; padding: 8px 16px; border-radius: 4px; margin-bottom: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="country-name">United States</h3>
+                    <div class="country-features">
+                        <span class="feature-tag">Voice</span>
+                        <span class="feature-tag">SMS</span>
+                        <span class="feature-tag">MMS</span>
+                        <span class="feature-tag">Mobile</span>
+                    </div>
+                </div>
+
+                <div class="country-option" data-country="CA" data-code="+1" onclick="selectCountry(this, 'CA')">
+                    <div style="background-color: #c8102e; color: white; display: inline-block; padding: 8px 16px; border-radius: 4px; margin-bottom: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="country-name">Canada</h3>
+                    <div class="country-features">
+                        <span class="feature-tag">Voice</span>
+                        <span class="feature-tag">SMS</span>
+                        <span class="feature-tag">MMS</span>
+                        <span class="feature-tag">Mobile</span>
+                    </div>
+                </div>
+
+                <div class="country-option" data-country="UK" data-code="+44" onclick="selectCountry(this, 'UK')">
+                    <div style="background-color: #012169; color: white; display: inline-block; padding: 8px 16px; border-radius: 4px; margin-bottom: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="country-name">United Kingdom</h3>
+                    <div class="country-features">
+                        <span class="feature-tag">Voice</span>
+                        <span class="feature-tag">SMS</span>
+                        <span class="feature-tag">MMS</span>
+                        <span class="feature-tag">Local</span>
+                        <span class="feature-tag">Mobile</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-button nav-button-back" onclick="goToSection('storePage')">Back</button>
+            <button class="nav-button nav-button-next" id="countryNextBtn" disabled onclick="goToNumberType()">Next</button>
+        </div>
+    </section>
+
+    <!-- Number Type Selection -->
+    <section id="numberTypeSelection" class="section">
+        <div class="page-header">
+            <button class="back-button" onclick="goToSection('countrySelection')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="page-title">Select Number Type</h1>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step completed"></div>
+            <div class="step active"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+        </div>
+
+        <h2 class="section-title">Choose Number Type</h2>
+        <p class="section-description">Select the type of number you need for your specific use case.</p>
+
+        <div id="numberTypeOptions" class="location-selection">
+            <!-- Number type options will be inserted here -->
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-button nav-button-back" onclick="goToSection('countrySelection')">Back</button>
+            <button class="nav-button nav-button-next" id="typeNextBtn" disabled onclick="goToLocationSelection()">Next</button>
+        </div>
+    </section>
+
+    <!-- Location Selection -->
+    <section id="locationSelection" class="section">
+        <div class="page-header">
+            <button class="back-button" onclick="goToSection('numberTypeSelection')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="page-title">Select Location</h1>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step completed"></div>
+            <div class="step completed"></div>
+            <div class="step active"></div>
+            <div class="step"></div>
+            <div class="step"></div>
+        </div>
+
+        <h2 class="section-title">Choose a Location</h2>
+        <p class="section-description">Select the area code for your new phone number.</p>
+
+        <div id="locationOptions" class="location-selection">
+            <!-- Location options will be inserted here -->
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-button nav-button-back" onclick="goToSection('numberTypeSelection')">Back</button>
+            <button class="nav-button nav-button-next" id="locationNextBtn" disabled onclick="goToPlanSelection()">Next</button>
+        </div>
+    </section>
+
+    <!-- Plan Selection -->
+    <section id="planSelection" class="section">
+        <div class="page-header">
+            <button class="back-button" onclick="goToSection('locationSelection')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="page-title">Select Plan</h1>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step completed"></div>
+            <div class="step completed"></div>
+            <div class="step completed"></div>
+            <div class="step active"></div>
+            <div class="step"></div>
+        </div>
+
+        <h2 class="section-title">Choose a Plan</h2>
+        <p class="section-description">Select from a variety of affordable plans to go with your number. Perfect for any situation - whether you need a disposable number or to keep it for as long as you want. No contracts, no hassles.</p>
+
+        <div class="plan-category">
+            <h3 class="plan-category-title">Prepaid Plans</h3>
+            <p class="plan-category-description">Our most flexible plans bundled with local minutes and SMS usage.</p>
+            
+            <div class="plan-options">
+                <div class="plan-option" data-plan="7day" onclick="selectPlan(this, '7day', 'Prepaid', '7 Day', '20/60', 7500)">
+                    <div class="plan-duration">7 Day</div>
+                    <div class="plan-usage">20/60</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">7,500</span>
+                    </div>
+                </div>
+                
+                <div class="plan-option" data-plan="30day" onclick="selectPlan(this, '30day', 'Prepaid', '30 Day', '50/150', 10500)">
+                    <div class="plan-duration">30 Day</div>
+                    <div class="plan-usage">50/150</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">10,500</span>
+                    </div>
+                </div>
+                
+                <div class="plan-option" data-plan="90day" onclick="selectPlan(this, '90day', 'Prepaid', '90 Day', '100/250', 19500)">
+                    <div class="plan-duration">90 Day</div>
+                    <div class="plan-usage">100/250</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">19,500</span>
+                    </div>
+                </div>
+                
+                <div class="plan-option" data-plan="365day" onclick="selectPlan(this, '365day', 'Prepaid', '365 Day', '500/1100', 55000)">
+                    <div class="plan-duration">365 Day</div>
+                    <div class="plan-usage">500/1100</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">55,000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Bundled minutes/SMS for local calling and texting</span>
+                </div>
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Extend your number at any time</span>
+                </div>
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>One-time payment—perfect for short- or long-term use</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="plan-category">
+            <h3 class="plan-category-title">Unlimited Subscriptions</h3>
+            <p class="plan-category-description">UNLIMITED talk & text, auto-renewing subscription plans available on US, Canada, and UK mobile numbers.</p>
+            
+            <div class="plan-options">
+                <div class="plan-option" data-plan="monthly1" onclick="selectPlan(this, 'monthly1', 'Unlimited', '1 Line Monthly', 'Unlimited', 9000)">
+                    <div class="plan-duration">1 Line Subscription</div>
+                    <div class="plan-usage">Monthly</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">9,000</span>
+                        <span style="font-size: 0.9rem; margin-left: 4px;">/month</span>
+                    </div>
+                </div>
+                
+                <div class="plan-option" data-plan="monthly3" onclick="selectPlan(this, 'monthly3', 'Unlimited', '3 Line Monthly', 'Unlimited', 26000)">
+                    <div class="plan-duration">3 Line Subscription</div>
+                    <div class="plan-usage">Monthly</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">26,000</span>
+                        <span style="font-size: 0.9rem; margin-left: 4px;">/month</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>UNLIMITED local talk & text. Auto-renewing subscription, no expiry date!</span>
+                </div>
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Available in 1 or 3 Line bundles. Choose one line now, add two more numbers later</span>
+                </div>
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Yearly plans available — Save up to 20%!</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="plan-category">
+            <h3 class="plan-category-title">International Plans</h3>
+            <p class="plan-category-description">For international calling capabilities with your number.</p>
+            
+            <div class="plan-options">
+                <div class="plan-option" data-plan="international" onclick="selectPlan(this, 'international', 'International', '30 Day Worldwide', 'Includes ₦750 Credits', 12000)">
+                    <div class="plan-duration">30 Day Worldwide</div>
+                    <div class="plan-usage">(Includes ₦750 Credits)</div>
+                    <div class="plan-price">
+                        <span class="price-currency">₦</span>
+                        <span class="price-amount">12,000</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Call internationally anywhere in the world at great rates!</span>
+                </div>
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Uses Credits directly from your account balance</span>
+                </div>
+                <div class="plan-feature">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>International texting capabilities available with US/CAN numbers</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-button nav-button-back" onclick="goToSection('locationSelection')">Back</button>
+            <button class="nav-button nav-button-next" id="planNextBtn" disabled onclick="goToCheckout()">Next</button>
+        </div>
+    </section>
+
+    <!-- Checkout -->
+    <section id="checkout" class="section">
+        <div class="page-header">
+            <button class="back-button" onclick="goToSection('planSelection')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h1 class="page-title">Checkout</h1>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step completed"></div>
+            <div class="step completed"></div>
+            <div class="step completed"></div>
+            <div class="step completed"></div>
+            <div class="step active"></div>
+        </div>
+
+        <h2 class="section-title">Review Your Order</h2>
+        <p class="section-description">Please review your order details before proceeding to payment.</p>
+
+        <div class="purchase-summary">
+            <h3 class="summary-title">Purchase Details</h3>
+            <div class="summary-row">
+                <span class="summary-label">Country:</span>
+                <span class="summary-value" id="summaryCountry">United States (+1)</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Number Type:</span>
+                <span class="summary-value" id="summaryType">Mobile</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Phone Number:</span>
+                <span class="summary-value" id="summaryNumber">(209) 625-0687</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Plan:</span>
+                <span class="summary-value" id="summaryPlan">7 Day</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Plan Usage:</span>
+                <span class="summary-value" id="summaryUsage">20 min -or- 60 SMS</span>
+            </div>
+            <div class="summary-row">
+                <span class="summary-label">Plan Expiry:</span>
+                <span class="summary-value" id="summaryExpiry">7 Days (expires on March 18, 2025)</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span class="summary-label">Total:</span>
+                <span class="summary-value" id="summaryTotal">₦7,500.00</span>
+            </div>
+        </div>
+
+        <div class="payment-options">
+            <h3 class="summary-title">Payment Method</h3>
+            <div class="payment-option" onclick="selectPayment(this, 'bank')">
+                <div class="payment-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                        <line x1="2" y1="10" x2="22" y2="10"></line>
+                    </svg>
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">Bank Transfer</div>
+                    <div class="payment-description">Transfer from any Nigerian bank</div>
+                </div>
+            </div>
+            <div class="payment-option" onclick="selectPayment(this, 'wallet')">
+                <div class="payment-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+                        <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+                        <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
+                    </svg>
+                </div>
+                <div class="payment-details">
+                    <div class="payment-name">VeltraWave Wallet</div>
+                    <div class="payment-description">Pay using your wallet balance</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <div class="disclaimer-title">
+                <span class="disclaimer-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </span>
+                Important
+            </div>
+            <p class="disclaimer-text">
+                These numbers cannot be used for emergency calls and are not guaranteed to work with third-party verification services. Your number will be delivered to your email within 1 hour of purchase.
+            </p>
+        </div>
+
+        <button class="service-button" style="width: 100%; margin-bottom: 1rem;" id="completeOrderBtn" disabled onclick="completeOrder()">Complete Order</button>
+        <button class="nav-button nav-button-back" style="width: 100%;" onclick="goToSection('planSelection')">Back</button>
+    </section>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div id="toastMessage"></div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item active">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+            </div>
+            <span>Store</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+            </div>
+            <span>Numbers</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path>
+                </svg>
+            </div>
+            <span>profile</span>
+        </a>
+    </div>
+</div>
+
+<script>
+    // State variables
+let selectedCountry = null;
+let selectedNumberType = null;
+let selectedLocation = null;
+let selectedPlan = null;
+let selectedPaymentMethod = null;
+
+// Number types by country
+const numberTypes = {
+    'US': [
+        { id: 'mobile', name: 'Mobile' }
+    ],
+    'CA': [
+        { id: 'mobile', name: 'Mobile' }
+    ],
+    'UK': [
+        { id: 'mobile', name: 'Mobile' },
+        { id: 'local', name: 'Local' }
+    ]
+};
+
+// Locations by country
+const locations = {
+    'US': [
+        { id: 'ca209', name: 'California', code: '(209)' },
+        { id: 'ca213', name: 'California', code: '(213)' },
+        { id: 'ny212', name: 'New York', code: '(212)' },
+        { id: 'tx214', name: 'Texas', code: '(214)' }
+    ],
+    'CA': [
+        { id: 'on416', name: 'Ontario', code: '(416)' },
+        { id: 'on647', name: 'Ontario', code: '(647)' },
+        { id: 'bc604', name: 'British Columbia', code: '(604)' }
+    ],
+    'UK': [
+        { id: 'ld020', name: 'London', code: '(020)' },
+        { id: 'mn0161', name: 'Manchester', code: '(0161)' },
+        { id: 'bg0121', name: 'Birmingham', code: '(0121)' }
+    ]
+};
+
+// Format currency
+function formatCurrency(amount, currency = '₦') {
+    return new Intl.NumberFormat('en-NG', { 
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount);
+}
+
+// Navigation functions
+function goToSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // Show the target section
+    document.getElementById(sectionId).classList.add('active');
+    
+    // Show toast notification based on the section being navigated to
+    if (sectionId === 'countrySelection') {
+        showToast('Select a country for your new phone number', false);
+    } else if (sectionId === 'numberTypeSelection') {
+        showToast('Choose the type of number you need', false);
+    } else if (sectionId === 'locationSelection') {
+        showToast('Select an area code for your number', false);
+    } else if (sectionId === 'planSelection') {
+        showToast('Choose a plan that fits your needs', false);
+    } else if (sectionId === 'checkout') {
+        showToast('Review your order before payment', false);
+    } else if (sectionId === 'storePage') {
+        showToast('Welcome to VeltraWave Store', false);
+    }
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
+}
+
+function goToDashboard() {
+    showToast('Redirecting to dashboard...', false);
+    setTimeout(() => {
+        window.location.href = 'dashboard.html';
+    }, 1000);
+}
+
+// Go to MTN Deals page
+function goToMTNDeals() {
+    showToast('Redirecting to MTN Special Data Deals...', false);
+    setTimeout(() => {
+        window.location.href = 'mtn-deals.html';
+    }, 1000);
+}
+
+// Go to Website Builder page
+function goToWebsiteBuilder() {
+    showToast('Redirecting to Website Builder...', false);
+    setTimeout(() => {
+        window.location.href = 'website-builder.html';
+    }, 1000);
+}
+
+// Select country
+function selectCountry(element, country) {
+    // Reset previous selection
+    document.querySelectorAll('.country-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Set new selection
+    element.classList.add('selected');
+    selectedCountry = country;
+    
+    // Show toast notification
+    showToast(`Selected country: ${getCountryName(country)}`, false);
+    
+    // Enable next button
+    document.getElementById('countryNextBtn').disabled = false;
+}
+
+// Go to number type selection
+function goToNumberType() {
+    if (!selectedCountry) return;
+    
+    // Populate number type options
+    const numberTypeOptions = document.getElementById('numberTypeOptions');
+    numberTypeOptions.innerHTML = '';
+    
+    numberTypes[selectedCountry].forEach(type => {
+        const option = document.createElement('div');
+        option.className = 'location-option';
+        option.setAttribute('data-type', type.id);
+        option.onclick = function() { selectNumberType(this, type.id); };
+        option.innerHTML = `
+            <div class="location-name">${type.name}</div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        `;
+        numberTypeOptions.appendChild(option);
+    });
+    
+    // Navigate to number type selection
+    goToSection('numberTypeSelection');
+}
+
+// Select number type
+function selectNumberType(element, type) {
+    // Reset previous selection
+    document.querySelectorAll('.location-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Set new selection
+    element.classList.add('selected');
+    selectedNumberType = type;
+    
+    // Show toast notification
+    showToast(`Selected number type: ${type.charAt(0).toUpperCase() + type.slice(1)}`, false);
+    
+    // Enable next button
+    document.getElementById('typeNextBtn').disabled = false;
+    
+    // Auto navigate to next section after a short delay
+    setTimeout(() => {
+        goToLocationSelection();
+    }, 500);
+}
+
+// Go to location selection
+function goToLocationSelection() {
+    if (!selectedCountry || !selectedNumberType) return;
+    
+    // Populate location options
+    const locationOptions = document.getElementById('locationOptions');
+    locationOptions.innerHTML = '';
+    
+    locations[selectedCountry].forEach(location => {
+        const option = document.createElement('div');
+        option.className = 'location-option';
+        option.setAttribute('data-location', location.id);
+        option.onclick = function() { selectLocation(this, location.id, location.name, location.code); };
+        option.innerHTML = `
+            <div>
+                <div class="location-name">${location.name}</div>
+                <div class="location-code">${location.code}</div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        `;
+        locationOptions.appendChild(option);
+    });
+    
+    // Navigate to location selection
+    goToSection('locationSelection');
+}
+
+// Select location
+function selectLocation(element, locationId, locationName, locationCode) {
+    // Reset previous selection
+    document.querySelectorAll('.location-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Set new selection
+    element.classList.add('selected');
+    selectedLocation = {
+        id: locationId,
+        name: locationName,
+        code: locationCode
+    };
+    
+    // Show toast notification
+    showToast(`Selected location: ${locationName} ${locationCode}`, false);
+    
+    // Enable next button
+    document.getElementById('locationNextBtn').disabled = false;
+    
+    // Auto navigate to next section after a short delay
+    setTimeout(() => {
+        goToPlanSelection();
+    }, 500);
+}
+
+// Go to plan selection
+function goToPlanSelection() {
+    if (!selectedCountry || !selectedNumberType || !selectedLocation) return;
+    
+    // Navigate to plan selection
+    goToSection('planSelection');
+}
+
+// Select plan
+function selectPlan(element, planId, planCategory, planName, planUsage, ngnPrice) {
+    // Reset previous selection
+    document.querySelectorAll('.plan-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Set new selection
+    element.classList.add('selected');
+    selectedPlan = {
+        id: planId,
+        category: planCategory,
+        name: planName,
+        usage: planUsage,
+        ngnPrice: ngnPrice
+    };
+    
+    // Show toast notification
+    showToast(`Selected plan: ${planCategory} - ${planName}`, false);
+    
+    // Enable next button
+    document.getElementById('planNextBtn').disabled = false;
+}
+
+// Go to checkout
+function goToCheckout() {
+    if (!selectedCountry || !selectedNumberType || !selectedLocation || !selectedPlan) return;
+    
+    // Update summary information
+    document.getElementById('summaryCountry').textContent = `${getCountryName(selectedCountry)} (${getCountryCode(selectedCountry)})`;
+    document.getElementById('summaryType').textContent = selectedNumberType.charAt(0).toUpperCase() + selectedNumberType.slice(1);
+    document.getElementById('summaryNumber').textContent = `${selectedLocation.code} XXX-XXXX`;
+    document.getElementById('summaryPlan').textContent = selectedPlan.name;
+    document.getElementById('summaryUsage').textContent = selectedPlan.usage;
+    
+    // Calculate expiry date
+    const expiryDate = getExpiryDate(selectedPlan.id);
+    document.getElementById('summaryExpiry').textContent = expiryDate;
+    
+    // Update total
+    document.getElementById('summaryTotal').textContent = `₦${formatCurrency(selectedPlan.ngnPrice)}`;
+    
+    // Navigate to checkout
+    goToSection('checkout');
+}
+
+// Select payment method
+function selectPayment(element, method) {
+    // Reset previous selection
+    document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Set new selection
+    element.classList.add('selected');
+    selectedPaymentMethod = method;
+    
+    // Show toast notification
+    const paymentName = method === 'bank' ? 'Bank Transfer' : 'VeltraWave Wallet';
+    showToast(`Selected payment method: ${paymentName}`, false);
+    
+    // Enable complete order button
+    document.getElementById('completeOrderBtn').disabled = false;
+}
+
+// Complete order
+function completeOrder() {
+    if (!selectedCountry || !selectedNumberType || !selectedLocation || !selectedPlan || !selectedPaymentMethod) {
+        showToast('Please complete all selections', true);
+        return;
+    }
+    
+    // Show loading state
+    const completeOrderBtn = document.getElementById('completeOrderBtn');
+    completeOrderBtn.innerHTML = '<span class="loading"></span>Processing...';
+    completeOrderBtn.disabled = true;
+    
+    // Simulate order processing
+    setTimeout(() => {
+        showToast('Your order has been placed successfully! Check your email for details.', false);
+        
+        // Reset button
+        completeOrderBtn.innerHTML = 'Complete Order';
+        
+        // Redirect to dashboard after a delay
+        setTimeout(() => {
+            goToDashboard();
+        }, 2000);
+    }, 2000);
+}
+
+// Helper functions
+function getCountryName(countryCode) {
+    const countryNames = {
+        'US': 'United States',
+        'CA': 'Canada',
+        'UK': 'United Kingdom'
+    };
+    return countryNames[countryCode] || countryCode;
+}
+
+function getCountryCode(countryCode) {
+    const countryCodes = {
+        'US': '+1',
+        'CA': '+1',
+        'UK': '+44'
+    };
+    return countryCodes[countryCode] || '';
+}
+
+function getExpiryDate(planId) {
+    const today = new Date();
+    let expiryDate = new Date(today);
+    
+    if (planId.includes('7day')) {
+        expiryDate.setDate(today.getDate() + 7);
+        return `7 Days (expires on ${formatDate(expiryDate)})`;
+    } else if (planId.includes('30day')) {
+        expiryDate.setDate(today.getDate() + 30);
+        return `30 Days (expires on ${formatDate(expiryDate)})`;
+    } else if (planId.includes('90day')) {
+        expiryDate.setDate(today.getDate() + 90);
+        return `90 Days (expires on ${formatDate(expiryDate)})`;
+    } else if (planId.includes('365day')) {
+        expiryDate.setDate(today.getDate() + 365);
+        return `365 Days (expires on ${formatDate(expiryDate)})`;
+    } else if (planId.includes('monthly')) {
+        expiryDate.setMonth(today.getMonth() + 1);
+        return `Monthly (renews on ${formatDate(expiryDate)})`;
+    } else if (planId.includes('yearly')) {
+        expiryDate.setFullYear(today.getFullYear() + 1);
+        return `Yearly (renews on ${formatDate(expiryDate)})`;
+    } else {
+        expiryDate.setDate(today.getDate() + 30);
+        return `30 Days (expires on ${formatDate(expiryDate)})`;
+    }
+}
+
+function formatDate(date) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+// Show toast notification
+function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const toastIcon = document.getElementById('toastIcon');
+    
+    // Clear any existing timeout
+    if (window.toastTimeout) {
+        clearTimeout(window.toastTimeout);
+    }
+    
+    toastMessage.textContent = message;
+    toast.className = isError ? 'toast error show' : 'toast success show';
+    
+    // Set icon based on type
+    if (isError) {
+        toastIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+            </svg>
+        `;
+    } else {
+        toastIcon.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+        `;
+    }
+    
+    // Hide toast after 3 seconds
+    window.toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+</script>
+</body>
+</html>

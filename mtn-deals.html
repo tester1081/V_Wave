@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VeltraWave - MTN Special Data Deals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --light-text: #f8fafc;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition-speed: 0.3s;
+            --grey-text: #64748b;
+            --mtn-color: #ffcc00;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        /* Store Page Styles */
+        .store-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            padding-bottom: 80px;
+        }
+
+        /* Header Styles */
+        .store-header {
+            position: sticky;
+            top: 0;
+            background-color: var(--light-bg);
+            z-index: 100;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .store-logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .store-logo i {
+            margin-right: 0.5rem;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            color: var(--dark-text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-decoration: none;
+        }
+
+        .back-button:active {
+            transform: scale(0.95);
+        }
+
+        /* MTN Data Deals Section */
+        .mtn-deals-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .mtn-banner {
+            background: linear-gradient(135deg, var(--mtn-color), #ffb700);
+            color: #000;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.5rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mtn-banner::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mtn-banner::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .mtn-banner-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .mtn-banner-subtitle {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .mtn-logo {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .important-notes {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .important-notes-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .important-notes-title i {
+            margin-right: 0.5rem;
+        }
+
+        .important-notes ul {
+            list-style: none;
+            margin-left: 0.5rem;
+        }
+
+        .important-notes li {
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .important-notes li i {
+            color: var(--success-color);
+            margin-right: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Data Plan Cards */
+        .plan-category {
+            margin-bottom: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title i {
+            margin-right: 0.5rem;
+        }
+
+        .category-subtitle {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-bottom: 1rem;
+        }
+
+        .plan-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .plan-card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plan-card:active {
+            transform: translateY(-2px);
+        }
+
+        .plan-card.selected {
+            border-color: var(--primary-color);
+        }
+
+        .plan-data {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--primary-color);
+        }
+
+        .plan-validity {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .plan-note {
+            font-size: 0.7rem;
+            color: var(--grey-text);
+            margin-top: 0.5rem;
+        }
+
+        /* Order Form */
+        .order-form {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            margin-top: 1.5rem;
+        }
+
+        .form-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color var(--transition-speed);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .submit-btn:hover {
+            background-color: #1e3a8a;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-label {
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .fast-delivery-note {
+            display: none;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            right: -300px;
+            top: 20px;
+            padding: 12px 24px;
+            background-color: #333;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: right 0.3s ease-in-out;
+            max-width: 280px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toast.show {
+            right: 20px;
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+
+        .toast-icon {
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.75rem 0;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
+            height: 60px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: color var(--transition-speed);
+            width: 20%;
+            height: 100%;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            position: relative;
+        }
+
+        .nav-item.active .nav-icon::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div id="toastMessage"></div>
+    </div>
+
+    <div class="store-container">
+        <div class="store-header">
+            <a href="store.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="store-logo">
+                <i class="fas fa-bolt"></i> VeltraWave
+            </div>
+            <div style="width: 40px;"></div> <!-- Empty div for spacing -->
+        </div>
+
+        <div class="mtn-deals-section">
+            <div class="mtn-banner">
+                <div class="mtn-logo">MTN</div>
+                <h2 class="mtn-banner-title">VeltraWave Exclusive MTN Special Data Plans</h2>
+                <p class="mtn-banner-subtitle">The cheapest MTN data plans available anywhere - exclusively for VeltraWave customers!</p>
+                
+                <div class="important-notes">
+                    <div class="important-notes-title">
+                        <i class="fas fa-exclamation-triangle"></i> Important Notes:
+                    </div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Data is from MTN's V_Wave.</li>
+                        <li><i class="fas fa-check-circle"></i> Manual processing - data will be delivered within 30 minutes.</li>
+                        <li><i class="fas fa-check-circle"></i> If your plan is more than 5GB, you will receive it in multiple transfers.</li>
+                        <li><i class="fas fa-check-circle"></i> These plans are not eligible for rollover (they expire after validity).</li>
+                        <li><i class="fas fa-check-circle"></i> Works on all MTN SIM cards and supports hotspot/tethering.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 1-Day Plans -->
+            <div class="plan-category">
+                <h3 class="category-title">
+                    <i class="fas fa-calendar-day"></i> 1-Day Offers (24 Hours Validity)
+                </h3>
+                <p class="category-subtitle">Best for: Quick browsing, social media, and light streaming.</p>
+                
+                <div class="plan-cards">
+                    <div class="plan-card" onclick="selectPlan(this, '1-Day 500MB', '₦100')">
+                        <div class="plan-data">500MB</div>
+                        <div class="plan-validity">1 Day</div>
+                        <div class="plan-price">₦100</div>
+                    </div>
+                    
+                    <div class="plan-card" onclick="selectPlan(this, '1-Day 600MB', '₦100')">
+                        <div class="plan-data">600MB</div>
+                        <div class="plan-validity">1 Day</div>
+                        <div class="plan-price">₦100</div>
+                    </div>
+                    
+                    <div class="plan-card" onclick="selectPlan(this, '1-Day 2.5GB', '₦400')">
+                        <div class="plan-data">2.5GB</div>
+                        <div class="plan-validity">1 Day</div>
+                        <div class="plan-price">₦400</div>
+                    </div>
+                    
+                    <div class="plan-card" onclick="selectPlan(this, '1-Day 4.5GB', '₦1,000')">
+                        <div class="plan-data">4.5GB</div>
+                        <div class="plan-validity">1 Day</div>
+                        <div class="plan-price">₦1,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7-Day Plans -->
+            <div class="plan-category">
+                <h3 class="category-title">
+                    <i class="fas fa-calendar-week"></i> 7-Day Offers (1 Week Validity)
+                </h3>
+                <p class="category-subtitle">Best for: Heavy users, movie streaming, gaming, and hotspot sharing.</p>
+                
+                <div class="plan-cards">
+                    <div class="plan-card" onclick="selectPlan(this, '7-Day 13GB', '₦2,000')">
+                        <div class="plan-data">13GB</div>
+                        <div class="plan-validity">7 Days</div>
+                        <div class="plan-price">₦2,000</div>
+                    </div>
+                    
+                    <div class="plan-card" onclick="selectPlan(this, '7-Day 18GB', '₦3,500')">
+                        <div class="plan-data">18GB</div>
+                        <div class="plan-validity">7 Days</div>
+                        <div class="plan-price">₦3,500</div>
+                    </div>
+                    
+                    <div class="plan-card" onclick="selectPlan(this, '7-Day 22GB', '₦4,000')">
+                        <div class="plan-data">22GB</div>
+                        <div class="plan-validity">7 Days</div>
+                        <div class="plan-price">₦4,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14-Day Plans -->
+            <div class="plan-category">
+                <h3 class="category-title">
+                    <i class="fas fa-calendar-alt"></i> 14-Day Offers (2 Weeks Validity)
+                </h3>
+                <p class="category-subtitle">Best for: Remote work, gaming, frequent downloads, and social media content creators.</p>
+                
+                <div class="plan-cards">
+                    <div class="plan-card" onclick="selectPlan(this, '14-Day 30GB', '₦5,000')">
+                        <div class="plan-data">30GB</div>
+                        <div class="plan-validity">14 Days</div>
+                        <div class="plan-price">₦5,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 30-Day Plans -->
+            <div class="plan-category">
+                <h3 class="category-title">
+                    <i class="fas fa-calendar-alt"></i> 30-Day Offers (1 Month Validity)
+                </h3>
+                <p class="category-subtitle">Best for: Long-term users, multiple device connections, video streaming, and online businesses.</p>
+                
+                <div class="plan-cards">
+                    <div class="plan-card" onclick="selectPlan(this, '30-Day 39GB', '₦6,000')">
+                        <div class="plan-data">39GB</div>
+                        <div class="plan-validity">30 Days</div>
+                        <div class="plan-price">₦6,000</div>
+                    </div>
+                    
+                    <div class="plan-card" onclick="selectPlan(this, '30-Day 53GB', '₦10,000')">
+                        <div class="plan-data">53GB</div>
+                        <div class="plan-validity">30 Days</div>
+                        <div class="plan-price">₦10,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Form -->
+            <div class="order-form">
+                <h3 class="form-title">Order Your MTN Data Plan</h3>
+                
+                <div class="form-group">
+                    <label for="selected-plan" class="form-label">Selected Plan</label>
+                    <input type="text" id="selected-plan" class="form-input" readonly placeholder="Select a plan above">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone-number" class="form-label">MTN Phone Number</label>
+                    <input type="tel" id="phone-number" class="form-input" placeholder="Enter your MTN number">
+                    <p class="form-note">This is the number where the data will be sent.</p>
+                </div>
+                
+                <div class="toggle-container">
+                    <div class="toggle-label">Contact Admin for Direct Top-up (Fast)</div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="fast-delivery-toggle" onchange="toggleFastDelivery()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div id="fast-delivery-note" class="fast-delivery-note">
+                    <i class="fas fa-bolt"></i> Fast delivery option will connect you directly with our admin on WhatsApp for immediate processing. Payment will still be deducted from your VWave wallet.
+                </div>
+                
+                <button class="submit-btn" onclick="submitOrder()">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Home</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-phone"></i></div>
+            <div class="nav-label">Numbers</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="nav-label">Games</div>
+        </a>
+        <a href="history.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-history"></i></div>
+            <div class="nav-label">History</div>
+        </a>
+        <a href="store.html" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="nav-label">Store</div>
+        </a>
+    </div>
+
+    <script>
+        // Add animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.plan-card, .mtn-banner, .order-form');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add('fade-in');
+                }, index * 100);
+            });
+        });
+
+        // Plan selection
+        let selectedPlan = null;
+        let selectedPrice = null;
+
+        function selectPlan(element, planName, price) {
+            // Remove selected class from all plan cards
+            const planCards = document.querySelectorAll('.plan-card');
+            planCards.forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            element.classList.add('selected');
+            
+            // Update selected plan input
+            document.getElementById('selected-plan').value = planName + ' - ' + price;
+            
+            // Store selected plan and price
+            selectedPlan = planName;
+            selectedPrice = price;
+        }
+        
+        // Toggle fast delivery option
+        function toggleFastDelivery() {
+            const fastDeliveryToggle = document.getElementById('fast-delivery-toggle');
+            const fastDeliveryNote = document.getElementById('fast-delivery-note');
+            
+            if (fastDeliveryToggle.checked) {
+                fastDeliveryNote.style.display = 'block';
+            } else {
+                fastDeliveryNote.style.display = 'none';
+            }
+        }
+
+        // Submit order
+        function submitOrder() {
+            const phoneNumber = document.getElementById('phone-number').value;
+            const fastDelivery = document.getElementById('fast-delivery-toggle').checked;
+            
+            // Validate inputs
+            if (!selectedPlan) {
+                showToast('Please select a data plan', true);
+                return;
+            }
+            
+            if (!phoneNumber) {
+                showToast('Please enter your MTN phone number', true);
+                return;
+            }
+            
+            if (!/^0\d{10}$/.test(phoneNumber) && !/^234\d{10}$/.test(phoneNumber)) {
+                showToast('Please enter a valid MTN phone number', true);
+                return;
+            }
+            
+            if (fastDelivery) {
+                // Open WhatsApp with pre-filled message
+                const message = `Hello, I would like to order the ${selectedPlan} data plan for ${phoneNumber}. Please process my order quickly. Thank you!`;
+                const whatsappUrl = `https://wa.me/2347067479043?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                showToast('Redirecting to WhatsApp for fast delivery...', false);
+            } else {
+                // Submit order to admin (this would be an API call in a real app)
+                showToast('Your order has been submitted! Data will be delivered within 30 minutes.', false);
+            }
+            
+            // Reset form
+            setTimeout(() => {
+                document.getElementById('selected-plan').value = '';
+                document.getElementById('phone-number').value = '';
+                document.getElementById('fast-delivery-toggle').checked = false;
+                document.getElementById('fast-delivery-note').style.display = 'none';
+                
+                const planCards = document.querySelectorAll('.plan-card');
+                planCards.forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                selectedPlan = null;
+                selectedPrice = null;
+            }, 2000);
+        }
+
+        // Toast notification
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            toast.className = isError ? 'toast error' : 'toast success';
+            
+            // Set icon based on type
+            if (isError) {
+                toastIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                `;
+            } else {
+                toastIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                `;
+            }
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

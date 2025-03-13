@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Veltrawave - Fund Wallet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit  Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --light-text: #f8fafc;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        /* Fund Page Styles */
+        .fund-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            padding-bottom: 80px;
+        }
+
+        /* Header Styles */
+        .page-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--dark-text);
+            margin-right: 1rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button:active {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Account Card */
+        .account-card {
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .account-card::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .account-card::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .account-label {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .account-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .account-number i {
+            margin-left: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .account-name {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .account-bank {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Account Switch */
+        .account-switch {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .account-switch-option {
+            flex: 1;
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .account-switch-option.active {
+            background-color: rgba(255, 255, 255, 0.3);
+            font-weight: 500;
+        }
+
+        /* Manual Funding */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .funding-form {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all var(--transition-speed);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e3a8a;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin-bottom: 2rem;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .payment-option {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .payment-option:hover {
+            transform: translateY(-5px);
+        }
+
+        .payment-option:active {
+            transform: translateY(-2px);
+        }
+
+        .payment-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .payment-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem 0;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: color var(--transition-speed);
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            position: relative;
+        }
+
+        .nav-item.active .nav-icon::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1e293b;
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 1000;
+            display: none;
+            animation: fadeInDown 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Account number copied to clipboard</div>
+    
+    <!-- Fund Page -->
+    <div class="fund-container">
+        <div class="page-header">
+            <button class="back-button" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1 class="page-title">Fund Wallet</h1>
+        </div>
+        
+        <div class="account-card fade-in">
+            <div class="account-label">Account Details</div>
+            <div class="account-number" id="accountNumber">
+                2345678901
+                <i class="far fa-copy" id="copyAccount"></i>
+            </div>
+            <div class="account-name" id="accountName">John Doe</div>
+            <div class="account-bank" id="accountBank">GTBank</div>
+            
+            <div class="account-switch">
+                <div class="account-switch-option active" data-account="1">Account 1</div>
+                <div class="account-switch-option" data-account="2">Account 2</div>
+            </div>
+        </div>
+        
+        <h2 class="section-title fade-in">Manual Funding</h2>
+        <div class="funding-form fade-in">
+            <div class="form-group">
+                <label for="amount" class="form-label">Amount</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-naira-sign input-icon"></i>
+                    <input type="number" id="amount" class="form-input" placeholder="Enter amount">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="description" class="form-label">Description (Optional)</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-pen input-icon"></i>
+                    <input type="text" id="description" class="form-input" placeholder="Enter description">
+                </div>
+            </div>
+            
+            <button class="btn btn-primary btn-block">Proceed to Payment</button>
+        </div>
+        
+        <div class="payment-methods fade-in">
+            <h2 class="section-title">Payment Methods</h2>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <div class="payment-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="payment-name">Card</div>
+                </div>
+                <div class="payment-option">
+                    <div class="payment-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="payment-name">Bank Transfer</div>
+                </div>
+                <div class="payment-option">
+                    <div class="payment-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div class="payment-name">USSD</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Home</div>
+        </a>
+        <a href="games.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="nav-label">Games</div>
+        </a>
+        <a href="store.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="nav-label">Store</div>
+        </a>
+        <a href="#" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-history"></i></div>
+            <div class="nav-label">History</div>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div class="nav-label">Profile</div>
+        </a>
+    </div>
+
+    <script>
+        // Copy account number
+        document.getElementById('copyAccount').addEventListener('click', function() {
+            const accountNumber = document.getElementById('accountNumber').innerText.trim().split('\n')[0];
+            navigator.clipboard.writeText(accountNumber).then(function() {
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                
+                // Hide toast after 3 seconds
+                setTimeout(function() {
+                    toast.style.display = 'none';
+                }, 3000);
+            });
+        });
+        
+        // Account switch
+        const accountSwitchOptions = document.querySelectorAll('.account-switch-option');
+        accountSwitchOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                accountSwitchOptions.forEach(opt => opt.classList.remove('active'));
+                
+                // Add active class to clicked option
+                this.classList.add('active');
+                
+                // Get account number
+                const accountNumber = this.getAttribute('data-account');
+                
+                // Update account details
+                if (accountNumber === '1') {
+                    document.getElementById('accountNumber').innerHTML = '2345678901<i class="far fa-copy" id="copyAccount"></i>';
+                    document.getElementById('accountName').innerText = 'John Doe';
+                    document.getElementById('accountBank').innerText = 'GTBank';
+                } else {
+                    document.getElementById('accountNumber').innerHTML = '9876543210<i class="far fa-copy" id="copyAccount"></i>';
+                    document.getElementById('accountName').innerText = 'John Doe';
+                    document.getElementById('accountBank').innerText = 'Access Bank';
+                }
+                
+                // Re-add event listener to copy button
+                document.getElementById('copyAccount').addEventListener('click', function() {
+                    const accountNumber = document.getElementById('accountNumber').innerText.trim().split('\n')[0];
+                    navigator.clipboard.writeText(accountNumber).then(function() {
+                        // Show toast
+                        const toast = document.getElementById('toast');
+                        toast.style.display = 'block';
+                        
+                        // Hide toast after 3 seconds
+                        setTimeout(function() {
+                            toast.style.display = 'none';
+                        }, 3000);
+                    });
+                });
+            });
+        });
+        
+        // Add animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

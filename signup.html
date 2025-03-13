@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QuickVTU - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --light-text: #f8fafc;
+            --border-color: #e2e8f0;
+            --input-bg: #f1f5f9;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Signup Page Styles */
+        .signup-container {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .signup-logo {
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signup-logo i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .signup-heading {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .signup-subheading {
+            margin-bottom: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            background-color: var(--input-bg);
+            transition: all var(--transition-speed);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background-color: white;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .pin-container {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: space-between;
+        }
+
+        .pin-input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            background-color: var(--input-bg);
+            transition: all var(--transition-speed);
+        }
+
+        .pin-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background-color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e3a8a;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .signup-footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .signup-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        /* iPhone-like styling */
+        .ios-button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .ios-button:active {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-logo fade-in">
+            <i class="fas fa-bolt"></i> QuickVTU
+        </div>
+        
+        <h1 class="signup-heading fade-in">Create Account</h1>
+        <p class="signup-subheading fade-in">Fill in your details to get started.</p>
+        
+        <form id="signupForm">
+            <div class="form-group fade-in" style="animation-delay: 0.1s;">
+                <label for="fullname" class="form-label">Full Name</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="fullname" class="form-input" placeholder="Enter your full name">
+                </div>
+            </div>
+            
+            <div class="form-group fade-in" style="animation-delay: 0.2s;">
+                <label for="email" class="form-label">Email Address</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                </div>
+            </div>
+            
+            <div class="form-group fade-in" style="animation-delay: 0.3s;">
+                <label for="phone" class="form-label">Phone Number</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-phone input-icon"></i>
+                    <input type="tel" id="phone" class="form-input" placeholder="Enter your phone number">
+                </div>
+            </div>
+            
+            <div class="form-group fade-in" style="animation-delay: 0.4s;">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-input" placeholder="Create a password">
+                    <button type="button" class="password-toggle" id="passwordToggle">
+                        <i class="far fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="form-group fade-in" style="animation-delay: 0.5s;">
+                <label for="pin" class="form-label">Create 4-Digit PIN</label>
+                <div class="pin-container">
+                    <input type="password" maxlength="1" class="pin-input" data-pin="1">
+                    <input type="password" maxlength="1" class="pin-input" data-pin="2">
+                    <input type="password" maxlength="1" class="pin-input" data-pin="3">
+                    <input type="password" maxlength="1" class="pin-input" data-pin="4">
+                </div>
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem;">This PIN will be used for transactions</p>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block ios-button fade-in" style="animation-delay: 0.6s;">Create Account</button>
+        </form>
+        
+        <div class="signup-footer fade-in" style="animation-delay: 0.7s;">
+            Already have an account? <a href="login.html">Login</a>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle password visibility
+        document.getElementById('passwordToggle').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // PIN input handling
+        const pinInputs = document.querySelectorAll('.pin-input');
+        
+        pinInputs.forEach((input, index) => {
+            // Auto-focus next input
+            input.addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    if (index < pinInputs.length - 1) {
+                        pinInputs[index + 1].focus();
+                    }
+                }
+            });
+            
+            // Handle backspace
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0) {
+                    if (index > 0) {
+                        pinInputs[index - 1].focus();
+                    }
+                }
+            });
+            
+            // Only allow numbers
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+        
+        // Signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate PIN
+            let pin = '';
+            let isPinComplete = true;
+            
+            pinInputs.forEach(input => {
+                if (input.value.length === 0) {
+                    isPinComplete = false;
+                }
+                pin += input.value;
+            });
+            
+            if (!isPinComplete) {
+                alert('Please enter a 4-digit PIN');
+                return;
+            }
+            
+            // Redirect to login page
+            window.location.href = 'login.html';
+        });
+        
+        // Add animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

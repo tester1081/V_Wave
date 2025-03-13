@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VeltraWave - Contact Us</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+        --primary-color: #1e40af;
+        --secondary-color: #3b82f6;
+        --accent-color: #60a5fa;
+        --light-bg: #f0f7ff;
+        --dark-text: #1e293b;
+        --light-text: #f8fafc;
+        --border-color: #e2e8f0;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition-speed: 0.3s;
+        --grey-text: #64748b;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        min-height: 100vh;
+        position: relative;
+        padding-bottom: 70px; /* Space for bottom nav */
+    }
+
+    /* Container Styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        padding-bottom: 80px;
+    }
+
+    /* Header Styles */
+    .header {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .header-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .logo i {
+        margin-right: 0.5rem;
+        font-size: 1.8rem;
+    }
+
+    .nav-menu {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .nav-link {
+        color: var(--dark-text);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color var(--transition-speed);
+    }
+
+    .nav-link:hover {
+        color: var(--primary-color);
+    }
+
+    .nav-link.active {
+        color: var(--primary-color);
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .login-btn {
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        background-color: transparent;
+    }
+
+    .login-btn:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .signup-btn {
+        padding: 0.5rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+        border: 1px solid var(--primary-color);
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .signup-btn:hover {
+        background-color: #1e3a8a;
+    }
+
+    /* Page Header */
+    .page-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    /* Contact Section */
+    .contact-section {
+        margin-bottom: 4rem;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: var(--grey-text);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    /* Contact Grid */
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    /* Contact Form */
+    .contact-form {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: var(--dark-text);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all var(--transition-speed);
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .form-textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: all var(--transition-speed);
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .form-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--primary-color);
+        color: white;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color var(--transition-speed);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .form-button:hover {
+        background-color: #1e3a8a;
+    }
+
+    /* Contact Info */
+    .contact-info {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+    }
+
+    .info-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+
+    .info-item {
+        display: flex;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-icon {
+        width: 50px;
+        height: 50px;
+        background-color: var(--light-bg);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .info-content {
+        flex: 1;
+    }
+
+    .info-label {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        color: var(--dark-text);
+    }
+
+    .info-text {
+        color: var(--grey-text);
+        line-height: 1.5;
+    }
+
+    .info-text a {
+        color: var(--primary-color);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+    }
+
+    .info-text a:hover {
+        text-decoration: underline;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        transition: all var(--transition-speed);
+    }
+
+    .social-link:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+        margin-bottom: 4rem;
+    }
+
+    .faq-container {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: var(--card-shadow);
+    }
+
+    .faq-item {
+        border-bottom: 1px solid var(--border-color);
+        padding: 1.5rem 0;
+    }
+
+    .faq-item:last-child {
+        border-bottom: none;
+    }
+
+    .faq-question {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--dark-text);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    .faq-question i {
+        color: var(--primary-color);
+        transition: transform var(--transition-speed);
+    }
+
+    .faq-question.active i {
+        transform: rotate(180deg);
+    }
+
+    .faq-answer {
+        color: var(--grey-text);
+        line-height: 1.6;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-speed) ease;
+    }
+
+    .faq-answer.active {
+        max-height: 500px;
+    }
+
+    /* Map Section */
+    .map-section {
+        margin-bottom: 4rem;
+    }
+
+    .map-container {
+        background-color: white;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: var(--card-shadow);
+        height: 400px;
+        overflow: hidden;
+    }
+
+    .map-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0.5rem;
+    }
+
+    /* CTA Section */
+    .cta {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 1rem;
+        padding: 3rem 2rem;
+        text-align: center;
+        color: white;
+        margin: 3rem 0;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .cta-description {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-btn {
+        display: inline-block;
+        background-color: white;
+        color: var(--primary-color);
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all var(--transition-speed);
+        border: 2px solid white;
+    }
+
+    .cta-btn:hover {
+        background-color: transparent;
+        color: white;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: white;
+        padding: 3rem 0 1rem;
+        margin-top: 3rem;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .footer-logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .footer-logo i {
+        margin-right: 0.5rem;
+    }
+
+    .footer-description {
+        color: var(--grey-text);
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+    }
+
+    .footer-social {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        transition: all var(--transition-speed);
+    }
+
+    .social-link:hover {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .footer-heading {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--dark-text);
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-link {
+        margin-bottom: 0.5rem;
+    }
+
+    .footer-link a {
+        color: var(--grey-text);
+        text-decoration: none;
+        transition: color var(--transition-speed);
+    }
+
+    .footer-link a:hover {
+        color: var(--primary-color);
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border-color);
+        color: var(--grey-text);
+        font-size: 0.9rem;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-around;
+        padding: 0.75rem 0;
+        box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        border-top: 1px solid rgba(226, 232, 240, 0.8);
+        height: 60px;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.7rem;
+        transition: color var(--transition-speed);
+        width: 20%;
+        height: 100%;
+    }
+
+    .nav-item.active {
+        color: var(--primary-color);
+    }
+
+    .nav-icon {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+        position: relative;
+    }
+
+    .nav-item.active .nav-icon::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+    }
+
+    /* Toast Notification */
+    .toast {
+        position: fixed;
+        right: -300px;
+        top: 20px;
+        padding: 12px 24px;
+        background-color: #333;
+        color: white;
+        border-radius: 6px;
+        font-size: 14px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s ease-in-out;
+        max-width: 280px;
+        display: flex;
+        align-items: center;
+    }
+
+    .toast.show {
+        right: 20px;
+    }
+
+    .toast.success {
+        background-color: var(--success-color);
+    }
+
+    .toast.error {
+        background-color: var(--danger-color);
+    }
+
+    .toast-icon {
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .nav-menu {
+            display: none;
+        }
+
+        .page-title {
+            font-size: 2rem;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+        }
+
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .auth-buttons {
+            gap: 0.5rem;
+        }
+
+        .login-btn, .signup-btn {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+</head>
+<body>
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <div class="toast-icon" id="toastIcon"></div>
+    <div id="toastMessage"></div>
+</div>
+
+<!-- Header -->
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <i class="fas fa-bolt"></i> VeltraWave
+        </div>
+        <nav class="nav-menu">
+            <a href="home.html" class="nav-link active">Home</a>
+            <a href="signup.html" class="nav-link">Store</a>
+            <a href="service.html" class="nav-link">Services</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">Log In</a>
+            <a href="signup.html" class="signup-btn">Sign Up</a>
+        </div>
+    </div>
+</header>
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title">Contact Us</h1>
+        <p class="page-subtitle">Have questions or need assistance? We're here to help. Reach out to our team using any of the methods below.</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="section-header">
+            <h2 class="section-title">Get in Touch</h2>
+            <p class="section-subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" id="subject" name="subject" class="form-input" placeholder="What is this regarding?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" name="message" class="form-textarea" placeholder="Type your message here..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="form-button">Send Message</button>
+                </form>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="contact-info">
+                <h3 class="info-title">Contact Information</h3>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Our Location</div>
+                        <div class="info-text">123 VeltraWave Plaza, Victoria Island, Lagos, Nigeria</div>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Phone Number</div>
+                        <div class="info-text">
+                            <a href="tel:+2347067479043">+234 706 747 9043</a><br>
+                            <a href="tel:+2348012345678">+234 801 234 5678</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Email Address</div>
+                        <div class="info-text">
+                            <a href="mailto:support@veltrawave.com">support@veltrawave.com</a><br>
+                            <a href="mailto:info@veltrawave.com">info@veltrawave.com</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-label">Business Hours</div>
+                        <div class="info-text">
+                            Monday - Friday: 8:00 AM - 6:00 PM<br>
+                            Saturday: 9:00 AM - 3:00 PM<br>
+                            Sunday: Closed
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Find answers to common questions about our services and platform.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I create an account on VeltraWave?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Creating an account on VeltraWave is simple. Click on the "Sign Up" button at the top of the page, fill in your details, verify your email address, and you're good to go! You can also sign up using your Google or Facebook account for a quicker process.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    How long does it take for services to be delivered?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Most of our services are delivered instantly after payment confirmation. Data plans, airtime, and cable TV subscriptions are typically activated within seconds. However, some services like Free Fire top-ups may take up to 30 minutes as they are processed manually.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    What payment methods do you accept?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    We accept various payment methods including bank transfers, card payments, and payments through your VeltraWave wallet. You can fund your wallet using any of these methods and then use the wallet balance for quick transactions.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I report an issue with my order?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    If you experience any issues with your order, you can contact our support team through the "Contact Us" page, send an email to support@veltrawave.com, or reach out via WhatsApp at +234 706 747 9043. Please provide your order ID and a description of the issue for faster resolution.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    Do you offer refunds for failed transactions?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Yes, we offer refunds for failed transactions. If your transaction fails and you're charged, please contact our support team with your transaction details. We'll investigate and process a refund to your VeltraWave wallet or original payment method within 24-48 hours.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="section-header">
+            <h2 class="section-title">Our Location</h2>
+            <p class="section-subtitle">Find us on the map. We're located in the heart of Lagos.</p>
+        </div>
+
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63427.97620267909!2d3.3641951628906254!3d6.4550575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf53280e7648d%3A0x37e959ca4424d6d9!2sVictoria%20Island%2C%20Lagos!5e0!3m2!1sen!2sng!4v1647887301624!5m2!1sen!2sng" class="map-iframe" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2 class="cta-title">Ready to Get Started?</h2>
+        <p class="cta-description">Join thousands of satisfied customers who trust VeltraWave for their digital service needs. Sign up today and enjoy our exclusive offers!</p>
+        <a href="signup.html" class="cta-btn">Create an Account</a>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <i class="fas fa-bolt"></i> VeltraWave
+                </div>
+                <p class="footer-description">Your one-stop digital services platform for data, airtime, cable subscriptions, and more.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Services</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="data.html">Data Plans</a></li>
+                    <li class="footer-link"><a href="mtn-data-deals.html">MTN Special Data</a></li>
+                    <li class="footer-link"><a href="airtime.html">Airtime</a></li>
+                    <li class="footer-link"><a href="cable.html">Cable Subscription</a></li>
+                    <li class="footer-link"><a href="electricity.html">Electricity Bills</a></li>
+                    <li class="footer-link"><a href="results.html">Result Checking</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="index.html">Home</a></li>
+                    <li class="footer-link"><a href="store.html">Store</a></li>
+                    <li class="footer-link"><a href="about.html">About Us</a></li>
+                    <li class="footer-link"><a href="contact.html">Contact</a></li>
+                    <li class="footer-link"><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="footer-heading">Contact Us</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="tel:+2347067479043"><i class="fas fa-phone-alt"></i> +234 706 747 9043</a></li>
+                    <li class="footer-link"><a href="mailto:support@veltrawave.com"><i class="fas fa-envelope"></i> support@veltrawave.com</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 VeltraWave. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <a href="index.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-home"></i></div>
+        <div class="nav-label">Home</div>
+    </a>
+    <a href="store.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+        <div class="nav-label">Store</div>
+    </a>
+    <a href="history.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-history"></i></div>
+        <div class="nav-label">History</div>
+    </a>
+    <a href="dashboard.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-tachometer-alt"></i></div>
+        <div class="nav-label">Dashboard</div>
+    </a>
+    <a href="profile.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-user"></i></div>
+        <div class="nav-label">Profile</div>
+    </a>
+</div>
+
+<script>
+    // Show toast notification
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        
+        toastMessage.textContent = message;
+        toast.className = isError ? 'toast error' : 'toast success';
+        
+        // Set icon based on type
+        if (isError) {
+            toastIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+            `;
+        } else {
+            toastIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            `;
+        }
+        
+        // Show toast
+        toast.classList.add('show');
+        
+        // Hide toast after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // Handle contact form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        
+        // Simple validation
+        if (!name || !email || !message) {
+            showToast('Please fill in all required fields', true);
+            return;
+        }
+        
+        // Simulate form submission
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.innerHTML = 'Sending...';
+        submitButton.disabled = true;
+        
+        // Simulate API call with timeout
+        setTimeout(() => {
+            // Reset form
+            this.reset();
+            
+            // Reset button
+            submitButton.innerHTML = 'Send Message';
+            submitButton.disabled = false;
+            
+            // Show success message
+            showToast('Your message has been sent successfully! We\'ll get back to you soon.', false);
+        }, 1500);
+    });
+
+    // FAQ accordion functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            const isActive = question.classList.contains('active');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-question').forEach(q => {
+                q.classList.remove('active');
+                q.nextElementSibling.classList.remove('active');
+            });
+            
+            // Toggle current FAQ
+            if (!isActive) {
+                question.classList.add('active');
+                answer.classList.add('active');
+            }
+        });
+    });
+
+    // Add animation to contact grid
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.querySelector('.contact-form');
+        const contactInfo = document.querySelector('.contact-info');
+        
+        if (contactForm && contactInfo) {
+            contactForm.style.opacity = '0';
+            contactForm.style.transform = 'translateY(20px)';
+            contactForm.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            
+            contactInfo.style.opacity = '0';
+            contactInfo.style.transform = 'translateY(20px)';
+            contactInfo.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            contactInfo.style.transitionDelay = '0.2s';
+            
+            setTimeout(() => {
+                contactForm.style.opacity = '1';
+                contactForm.style.transform = 'translateY(0)';
+                
+                setTimeout(() => {
+                    contactInfo.style.opacity = '1';
+                    contactInfo.style.transform = 'translateY(0)';
+                }, 200);
+            }, 500);
+        }
+    });
+</script>
+</body>
+</html>

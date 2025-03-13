@@ -1,0 +1,2243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VeltraWave - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
+            --light-text: #f8fafc;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition-speed: 0.3s;
+            --grey-text: #64748b;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            padding-bottom: 80px;
+        }
+
+        /* Header Styles */
+        .dashboard-header {
+            position: sticky;
+            top: 0;
+            background-color: var(--light-bg);
+            z-index: 100;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-logo i {
+            margin-right: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            color: var(--dark-text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .header-icon:active {
+            transform: scale(0.95);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--danger-color);
+            color: white;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .user-avatar:active {
+            transform: scale(0.95);
+        }
+
+        /* Notification Panel */
+        .notification-panel {
+            position: absolute;
+            top: 60px;
+            right: 1rem;
+            width: calc(100% - 2rem);
+            max-width: 350px;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 200;
+            overflow: hidden;
+            display: none;
+            transform-origin: top right;
+            animation: scaleIn 0.2s ease-out forwards;
+        }
+
+        .notification-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-title {
+            font-weight: 600;
+        }
+
+        .notification-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Profile Panel */
+        .profile-panel {
+            position: absolute;
+            top: 60px;
+            right: 1rem;
+            width: calc(100% - 2rem);
+            max-width: 250px;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 200;
+            overflow: hidden;
+            display: none;
+            transform-origin: top right;
+            animation: scaleIn 0.2s ease-out forwards;
+        }
+
+        .profile-header {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-email {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .profile-menu {
+            padding: 0.5rem 0;
+        }
+
+        .profile-menu-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: background-color var(--transition-speed);
+        }
+
+        .profile-menu-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .profile-menu-item i {
+            width: 20px;
+            color: #64748b;
+        }
+
+        .logout-item {
+            color: var(--danger-color);
+        }
+
+        .logout-item i {
+            color: var(--danger-color);
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+            color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 1rem 0 1.5rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .balance-card::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .balance-amount i {
+            margin-left: 0.5rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .balance-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .balance-action-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color var(--transition-speed);
+        }
+
+        .balance-action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .balance-action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .balance-action-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .section-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem 1rem;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card:active {
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 0.75rem;
+        }
+
+        .service-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Recent Transactions */
+        .recent-transactions {
+            margin-bottom: 2rem;
+        }
+
+        .transaction-list {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .transaction-item {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+
+        .transaction-details {
+            flex: 1;
+        }
+
+        .transaction-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .transaction-date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .transaction-amount.credit {
+            color: var(--success-color);
+        }
+
+        .transaction-amount.debit {
+            color: var(--danger-color);
+        }
+
+        /* Phone Number Management */
+        .phone-management {
+            display: none;
+        }
+
+        .phone-number-card {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .phone-number-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .phone-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .phone-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-expiring {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .phone-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .phone-detail {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        .phone-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .phone-action-btn {
+            flex: 1;
+            min-width: 100px;
+            background-color: #f1f5f9;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .phone-action-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        .phone-action-btn:active {
+            transform: scale(0.98);
+        }
+
+        .phone-action-btn i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .add-number-btn {
+            background-color: white;
+            border: 2px dashed var(--border-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .add-number-btn:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .add-number-btn i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .add-number-text {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        /* Phone Number Detail Tabs */
+        .phone-detail-section {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .phone-tabs {
+            display: flex;
+            background-color: #f1f5f9;
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .phone-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .phone-tab.active {
+            background-color: white;
+            color: var(--primary-color);
+            box-shadow: var(--card-shadow);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Messages Tab */
+        .message-search {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .message-search input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color var(--transition-speed);
+        }
+
+        .message-search input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .message-search i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--grey-text);
+        }
+
+        .conversation-list {
+            margin-bottom: 1rem;
+        }
+
+        .conversation-item {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .conversation-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .conversation-item:last-child {
+            border-bottom: none;
+        }
+
+        .conversation-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .conversation-content {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .conversation-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+
+        .conversation-name {
+            font-weight: 600;
+        }
+
+        .conversation-time {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+        }
+
+        .conversation-preview {
+            font-size: 0.9rem;
+            color: var(--grey-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .unread-badge {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            color: #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .empty-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-description {
+            color: var(--grey-text);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-action {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color var(--transition-speed);
+        }
+
+        .empty-action:hover {
+            background-color: #1e3a8a;
+        }
+
+        /* Call Logs Tab */
+        .call-log-item {
+            display: flex;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+        }
+
+        .call-log-item:last-child {
+            border-bottom: none;
+        }
+
+        .call-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .call-incoming {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .call-outgoing {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+        }
+
+        .call-missed {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .call-details {
+            flex: 1;
+        }
+
+        .call-number {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .call-info {
+            display: flex;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--grey-text);
+        }
+
+        .call-type {
+            margin-right: 0.5rem;
+        }
+
+        .call-time {
+            margin-right: 0.5rem;
+        }
+
+        .call-duration {
+            margin-right: 0.5rem;
+        }
+
+        .call-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .call-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .call-action:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Voicemail Tab */
+        .voicemail-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .voicemail-item:last-child {
+            border-bottom: none;
+        }
+
+        .voicemail-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .voicemail-number {
+            font-weight: 500;
+        }
+
+        .voicemail-time {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+        }
+
+        .voicemail-duration {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .voicemail-player {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .player-btn:hover {
+            background-color: #1e3a8a;
+        }
+
+        .player-progress {
+            flex: 1;
+            height: 4px;
+            background-color: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .player-progress-fill {
+            height: 100%;
+            width: 30%;
+            background-color: var(--primary-color);
+        }
+
+        .voicemail-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .voicemail-action {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: #f1f5f9;
+            color: var(--dark-text);
+            border: none;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .voicemail-action:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Settings Tab */
+        .settings-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .settings-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-label {
+            font-weight: 500;
+        }
+
+        .settings-description {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-top: 0.25rem;
+        }
+
+        .settings-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e2e8f0;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .toggle-input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .settings-select {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color var(--transition-speed);
+        }
+
+        .settings-select:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Game Ranking Management */
+        .game-management {
+            display: none;
+        }
+
+        .game-card {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .game-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .game-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .game-logo img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .game-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .game-content {
+            padding: 1.5rem;
+        }
+
+        .rank-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .rank-item {
+            text-align: center;
+        }
+
+        .rank-label {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .rank-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .rank-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-title {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+            width: 65%;
+        }
+
+        .boost-options {
+            margin-top: 1.5rem;
+        }
+
+        .boost-option {
+            background-color: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .boost-option:hover {
+            background-color: #f1f5f9;
+        }
+
+        .boost-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .boost-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .boost-details {
+            flex: 1;
+        }
+
+        .boost-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .boost-description {
+            font-size: 0.8rem;
+            color: var(--grey-text);
+        }
+
+        .boost-price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .request-boost-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            margin-top: 1rem;
+        }
+
+        .request-boost-btn:hover {
+            background-color: #1e3a8a;
+        }
+
+        .request-boost-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.75rem 0;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
+            height: 60px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: color var(--transition-speed);
+            width: 20%;
+            height: 100%;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            position: relative;
+        }
+
+        .nav-item.active .nav-icon::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            right: -300px;
+            top: 20px;
+            padding: 12px 24px;
+            background-color: #333;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: right 0.3s ease-in-out;
+            max-width: 280px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toast.show {
+            right: 20px;
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+
+        .toast-icon {
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 150;
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div id="toastMessage"></div>
+    </div>
+    
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <div class="notification-title">Notifications</div>
+            <button id="closeNotifications" style="background: none; border: none; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="notification-list">
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-message">Your wallet has been credited with ₦5,000</div>
+                    <div class="notification-time">Just now</div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-message">Your US number will expire in 3 days</div>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-message">Your Free Fire rank boost request has been approved</div>
+                    <div class="notification-time">Yesterday</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Profile Panel -->
+    <div class="profile-panel" id="profilePanel">
+        <div class="profile-header">
+            <div class="profile-avatar">J</div>
+            <div class="profile-name">John Doe</div>
+            <div class="profile-email">john.doe@example.com</div>
+        </div>
+        <div class="profile-menu">
+            <a href="profile.html" class="profile-menu-item">
+                <i class="fas fa-user"></i>
+                <span>My Profile</span>
+            </a>
+            <a href="settings.html" class="profile-menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="support.html" class="profile-menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>Help & Support</span>
+            </a>
+            <a href="login.html" class="profile-menu-item logout-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Dashboard Home -->
+    <div class="dashboard" id="homeDashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-logo">
+                <i class="fas fa-bolt"></i> VeltraWave
+            </div>
+            <div class="header-actions">
+                <div class="header-icon" id="notificationIcon">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                <div class="user-avatar" id="profileIcon">J</div>
+            </div>
+        </div>
+        
+        <div class="balance-card">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount" id="balanceDisplay">
+                ₦ 25,450.00
+                <i class="far fa-eye-slash" id="toggleBalance"></i>
+            </div>
+            <div class="balance-actions">
+                <button class="balance-action-btn" onclick="window.location.href='fund.html'">
+                    <i class="fas fa-plus"></i> Fund
+                </button>
+                <button class="balance-action-btn" onclick="window.location.href='donate.html'">
+                    <i class="fas fa-hand-holding-heart"></i> Donate
+                </button>
+            </div>
+        </div>
+        
+        <div class="quick-actions">
+            <div class="section-header">
+                <h2 class="section-title">Quick Actions</h2>
+                
+            </div>
+            <div class="cards-grid">
+                <div class="service-card" onclick="window.location.href='result.html'">
+                    <div class="service-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="service-title">Results</h3>
+                </div>
+                <div class="service-card" onclick="window.location.href='games.html'">
+                    <div class="service-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="service-title">Game TOP UP</h3>
+                </div>
+                <div class="service-card" onclick="showSection('phoneManagement')">
+                    <div class="service-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="service-title">Numbers</h3>
+                </div>
+                <div class="service-card" onclick="showSection('gameManagement')">
+                    <div class="service-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="service-title">Games</h3>
+                </div>
+                <div class="service-card" onclick="window.location.href='data.html'">
+                    <div class="service-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 class="service-title">Data</h3>
+                </div>
+                <div class="service-card" onclick="window.location.href='cable.html'">
+                    <div class="service-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3 class="service-title">Cable</h3>
+                </div>
+                <div class="service-card" onclick="window.location.href='store.html'">
+                    <div class="service-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3 class="service-title">Store</h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recent-transactions">
+            <div class="section-header">
+                <h2 class="section-title">Recent Transactions</h2>
+            
+            </div>
+            <div class="transaction-list">
+                <div class="transaction-item">
+                    <div class="transaction-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">US Phone Number Purchase</div>
+                        <div class="transaction-date">Today, 10:30 AM</div>
+                    </div>
+                    <div class="transaction-amount debit">-₦7,500</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Wallet Funding</div>
+                        <div class="transaction-date">Yesterday, 2:15 PM</div>
+                    </div>
+                    <div class="transaction-amount credit">+₦10,000</div>
+                </div>
+                <div class="transaction-item">
+                    <div class="transaction-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-title">Free Fire Rank Boost</div>
+                        <div class="transaction-date">23 Jul, 9:45 AM</div>
+                    </div>
+                    <div class="transaction-amount debit">-₦5,000</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Phone Number Management -->
+    <div class="dashboard phone-management" id="phoneManagement">
+        <div class="dashboard-header">
+            <div class="dashboard-logo">
+                <i class="fas fa-bolt"></i> VeltraWave
+            </div>
+            <div class="header-actions">
+                <div class="header-icon" id="notificationIconPhone">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                <div class="user-avatar" id="profileIconPhone">J</div>
+            </div>
+        </div>
+        
+        <div class="section-header">
+            <h2 class="section-title">My Phone Numbers</h2>
+            <a href="store.html" class="section-link">Buy New</a>
+        </div>
+        
+        <div class="phone-number-card">
+            <div class="phone-number-header">
+                <div class="phone-number">+1 (209) 625-0687</div>
+                <div class="phone-status status-active">Active</div>
+            </div>
+            <div class="phone-details">
+                <div class="phone-detail">
+                    <div class="detail-label">Country</div>
+                    <div class="detail-value">United States</div>
+                </div>
+                <div class="phone-detail">
+                    <div class="detail-label">Type</div>
+                    <div class="detail-value">Mobile</div>
+                </div>
+                <div class="phone-detail">
+                    <div class="detail-label">Plan</div>
+                    <div class="detail-value">30 Day</div>
+                </div>
+                <div class="phone-detail">
+                    <div class="detail-label">Expires</div>
+                    <div class="detail-value">April 11, 2025</div>
+                </div>
+            </div>
+            <div class="phone-actions">
+                <button class="phone-action-btn" onclick="showPhoneTab('us-number', 'messages')">
+                    <i class="fas fa-sms"></i>
+                    <span>Messages</span>
+                </button>
+                <button class="phone-action-btn" onclick="showPhoneTab('us-number', 'calls')">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Calls</span>
+                </button>
+                <button class="phone-action-btn" onclick="showPhoneTab('us-number', 'voicemail')">
+                    <i class="fas fa-voicemail"></i>
+                    <span>Voicemail</span>
+                </button>
+                <button class="phone-action-btn" onclick="showPhoneTab('us-number', 'settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+            </div>
+            
+            <!-- Phone Detail Tabs for US Number -->
+            <div class="phone-detail-section" id="us-number-details">
+                <div class="phone-tabs">
+                    <div class="phone-tab" id="us-number-messages-tab" onclick="showPhoneTab('us-number', 'messages')">Messages</div>
+                    <div class="phone-tab" id="us-number-calls-tab" onclick="showPhoneTab('us-number', 'calls')">Calls</div>
+                    <div class="phone-tab" id="us-number-voicemail-tab" onclick="showPhoneTab('us-number', 'voicemail')">Voicemail</div>
+                    <div class="phone-tab" id="us-number-settings-tab" onclick="showPhoneTab('us-number', 'settings')">Settings</div>
+                </div>
+                
+                <!-- Messages Tab Content -->
+                <div class="tab-content" id="us-number-messages">
+                    <div class="message-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search messages...">
+                    </div>
+                    
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="empty-title">No messages yet</div>
+                        <div class="empty-description">Your messages will appear here once you start receiving them.</div>
+                    </div>
+                </div>
+                
+                <!-- Calls Tab Content -->
+                <div class="tab-content" id="us-number-calls">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="empty-title">No call history</div>
+                        <div class="empty-description">Your call history will appear here once you make or receive calls.</div>
+                    </div>
+                </div>
+                
+                <!-- Voicemail Tab Content -->
+                <div class="tab-content" id="us-number-voicemail">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-voicemail"></i>
+                        </div>
+                        <div class="empty-title">No voicemails</div>
+                        <div class="empty-description">Your voicemails will appear here once you receive them.</div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab Content -->
+                <div class="tab-content" id="us-number-settings">
+                    <div class="settings-section">
+                        <h3 class="settings-title">Call Settings</h3>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Call Forwarding</div>
+                                <div class="settings-description">Forward calls to another number</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Call Recording</div>
+                                <div class="settings-description">Automatically record all calls</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">Message Settings</h3>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Auto-Delete Messages</div>
+                                <div class="settings-description">Automatically delete old messages</div>
+                            </div>
+                            <select class="settings-select">
+                                <option>Never</option>
+                                <option>After 30 days</option>
+                                <option>After 90 days</option>
+                                <option>After 1 year</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Message Notifications</div>
+                                <div class="settings-description">Receive notifications for new messages</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">Voicemail Settings</h3>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Voicemail Greeting</div>
+                                <div class="settings-description">Customize your voicemail greeting</div>
+                            </div>
+                            <button class="phone-action-btn" style="min-width: auto; padding: 0.5rem 1rem;">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit</span>
+                            </button>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Voicemail Transcription</div>
+                                <div class="settings-description">Convert voicemails to text</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="phone-number-card">
+            <div class="phone-number-header">
+                <div class="phone-number">+44 (020) 7946-0211</div>
+                <div class="phone-status status-expiring">Expires Soon</div>
+            </div>
+            <div class="phone-details">
+                <div class="phone-detail">
+                    <div class="detail-label">Country</div>
+                    <div class="detail-value">United Kingdom</div>
+                </div>
+                <div class="phone-detail">
+                    <div class="detail-label">Type</div>
+                    <div class="detail-value">Local</div>
+                </div>
+                <div class="phone-detail">
+                    <div class="detail-label">Plan</div>
+                    <div class="detail-value">7 Day</div>
+                </div>
+                <div class="phone-detail">
+                    <div class="detail-label">Expires</div>
+                    <div class="detail-value">March 15, 2025</div>
+                </div>
+            </div>
+            <div class="phone-actions">
+                <button class="phone-action-btn" onclick="showPhoneTab('uk-number', 'messages')">
+                    <i class="fas fa-sms"></i>
+                    <span>Messages</span>
+                </button>
+                <button class="phone-action-btn" onclick="showPhoneTab('uk-number', 'calls')">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>Calls</span>
+                </button>
+                <button class="phone-action-btn" onclick="showPhoneTab('uk-number', 'voicemail')">
+                    <i class="fas fa-voicemail"></i>
+                    <span>Voicemail</span>
+                </button>
+                <button class="phone-action-btn" onclick="showPhoneTab('uk-number', 'settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+            </div>
+            
+            <!-- Phone Detail Tabs for UK Number -->
+            <div class="phone-detail-section" id="uk-number-details">
+                <div class="phone-tabs">
+                    <div class="phone-tab" id="uk-number-messages-tab" onclick="showPhoneTab('uk-number', 'messages')">Messages</div>
+                    <div class="phone-tab" id="uk-number-calls-tab" onclick="showPhoneTab('uk-number', 'calls')">Calls</div>
+                    <div class="phone-tab" id="uk-number-voicemail-tab" onclick="showPhoneTab('uk-number', 'voicemail')">Voicemail</div>
+                    <div class="phone-tab" id="uk-number-settings-tab" onclick="showPhoneTab('uk-number', 'settings')">Settings</div>
+                </div>
+                
+                <!-- Messages Tab Content -->
+                <div class="tab-content" id="uk-number-messages">
+                    <div class="message-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search messages...">
+                    </div>
+                    
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="empty-title">No messages yet</div>
+                        <div class="empty-description">Your messages will appear here once you start receiving them.</div>
+                    </div>
+                </div>
+                
+                <!-- Calls Tab Content -->
+                <div class="tab-content" id="uk-number-calls">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="empty-title">No call history</div>
+                        <div class="empty-description">Your call history will appear here once you make or receive calls.</div>
+                    </div>
+                </div>
+                
+                <!-- Voicemail Tab Content -->
+                <div class="tab-content" id="uk-number-voicemail">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-voicemail"></i>
+                        </div>
+                        <div class="empty-title">No voicemails</div>
+                        <div class="empty-description">Your voicemails will appear here once you receive them.</div>
+                    </div>
+                </div>
+                
+                <!-- Settings Tab Content -->
+                <div class="tab-content" id="uk-number-settings">
+                    <div class="settings-section">
+                        <h3 class="settings-title">Call Settings</h3>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Call Forwarding</div>
+                                <div class="settings-description">Forward calls to another number</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Call Recording</div>
+                                <div class="settings-description">Automatically record all calls</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">Message Settings</h3>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Auto-Delete Messages</div>
+                                <div class="settings-description">Automatically delete old messages</div>
+                            </div>
+                            <select class="settings-select">
+                                <option>Never</option>
+                                <option>After 30 days</option>
+                                <option>After 90 days</option>
+                                <option>After 1 year</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Message Notifications</div>
+                                <div class="settings-description">Receive notifications for new messages</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">Voicemail Settings</h3>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Voicemail Greeting</div>
+                                <div class="settings-description">Customize your voicemail greeting</div>
+                            </div>
+                            <button class="phone-action-btn" style="min-width: auto; padding: 0.5rem 1rem;">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit</span>
+                            </button>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <div class="settings-label">Voicemail Transcription</div>
+                                <div class="settings-description">Convert voicemails to text</div>
+                            </div>
+                            <label class="settings-toggle">
+                                <input type="checkbox" class="toggle-input" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="add-number-btn" onclick="window.location.href='store.html'">
+            <i class="fas fa-plus-circle"></i>
+            <div class="add-number-text">Add New Number</div>
+        </div>
+    </div>
+    
+    <!-- Game Ranking Management -->
+    <div class="dashboard game-management" id="gameManagement">
+        <div class="dashboard-header">
+            <div class="dashboard-logo">
+                <i class="fas fa-bolt"></i> VeltraWave
+            </div>
+            <div class="header-actions">
+                <div class="header-icon" id="notificationIconGame">
+                    <i class="fas fa-bell"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                <div class="user-avatar" id="profileIconGame">J</div>
+            </div>
+        </div>
+        
+        <div class="section-header">
+            <h2 class="section-title">Game Ranking</h2>
+        </div>
+        
+        <div class="game-card">
+            <div class="game-header">
+                <div class="game-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Garena_Free_Fire_Logo.svg/1200px-Garena_Free_Fire_Logo.svg.png" alt="Free Fire Logo">
+                </div>
+                <h2 class="game-title">Free Fire</h2>
+                <div class="game-subtitle">Boost your rank with professional players</div>
+            </div>
+            <div class="game-content">
+                <div class="rank-info">
+                    <div class="rank-item">
+                        <div class="rank-label">Current Rank</div>
+                        <div class="rank-value">Gold III</div>
+                    </div>
+                    <div class="rank-item">
+                        <div class="rank-label">Target Rank</div>
+                        <div class="rank-value">Diamond I</div>
+                    </div>
+                    <div class="rank-item">
+                        <div class="rank-label">Status</div>
+                        <div class="rank-value">In Progress</div>
+                    </div>
+                </div>
+                
+                <div class="rank-progress">
+                    <div class="progress-header">
+                        <div class="progress-title">Boost Progress</div>
+                        <div class="progress-percentage">65%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="boost-options">
+                    <h3 class="section-title" style="margin-bottom: 1rem;">Available Boost Packages</h3>
+                    
+                    <div class="boost-option">
+                        <div class="boost-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="boost-details">
+                            <div class="boost-title">Bronze to Gold</div>
+                            <div class="boost-description">Get boosted from Bronze to Gold rank</div>
+                        </div>
+                        <div class="boost-price">₦3,500</div>
+                    </div>
+                    
+                    <div class="boost-option">
+                        <div class="boost-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="boost-details">
+                            <div class="boost-title">Gold to Diamond</div>
+                            <div class="boost-description">Get boosted from Gold to Diamond rank</div>
+                        </div>
+                        <div class="boost-price">₦5,000</div>
+                    </div>
+                    
+                    <div class="boost-option">
+                        <div class="boost-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="boost-details">
+                            <div class="boost-title">Diamond to Heroic</div>
+                            <div class="boost-description">Get boosted from Diamond to Heroic rank</div>
+                        </div>
+                        <div class="boost-price">₦8,000</div>
+                    </div>
+                </div>
+                
+                <button class="request-boost-btn" onclick="showToast('Coming soon! Check back later.', false)">Request Rank Boost</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Home</div>
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('phoneManagement'); return false;">
+            <div class="nav-icon"><i class="fas fa-phone"></i></div>
+            <div class="nav-label">Numbers</div>
+        </a>
+        <a href="#" class="nav-item" onclick="showSection('gameManagement'); return false;">
+            <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+            <div class="nav-label">Games</div>
+        </a>
+ 
+        <a href="profile.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div class="nav-label">Profile</div>
+        </a>
+    </div>
+
+    <script>
+        // Toggle balance visibility
+        document.getElementById('toggleBalance').addEventListener('click', function() {
+            const balanceDisplay = document.getElementById('balanceDisplay');
+            const icon = this;
+            
+            if (icon.classList.contains('fa-eye-slash')) {
+                balanceDisplay.innerHTML = '₦ *****.**<i class="far fa-eye" id="toggleBalance"></i>';
+                document.getElementById('toggleBalance').addEventListener('click', toggleBalance);
+            } else {
+                balanceDisplay.innerHTML = '₦ 25,450.00<i class="far fa-eye-slash" id="toggleBalance"></i>';
+                document.getElementById('toggleBalance').addEventListener('click', toggleBalance);
+            }
+        });
+        
+        function toggleBalance() {
+            const balanceDisplay = document.getElementById('balanceDisplay');
+            const icon = document.getElementById('toggleBalance');
+            
+            if (icon.classList.contains('fa-eye-slash')) {
+                balanceDisplay.innerHTML = '₦ *****.**<i class="far fa-eye" id="toggleBalance"></i>';
+                document.getElementById('toggleBalance').addEventListener('click', toggleBalance);
+            } else {
+                balanceDisplay.innerHTML = '₦ 25,450.00<i class="far fa-eye-slash" id="toggleBalance"></i>';
+                document.getElementById('toggleBalance').addEventListener('click', toggleBalance);
+            }
+        }
+        
+        // Notification Panel
+        const notificationIcon = document.getElementById('notificationIcon');
+        const notificationPanel = document.getElementById('notificationPanel');
+        const closeNotifications = document.getElementById('closeNotifications');
+        const overlay = document.getElementById('overlay');
+        
+        notificationIcon.addEventListener('click', function() {
+            if (notificationPanel.style.display === 'block') {
+                notificationPanel.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                notificationPanel.style.display = 'block';
+                profilePanel.style.display = 'none';
+                overlay.style.display = 'block';
+            }
+        });
+        
+        closeNotifications.addEventListener('click', function() {
+            notificationPanel.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+        
+        // Profile Panel
+        const profileIcon = document.getElementById('profileIcon');
+        const profilePanel = document.getElementById('profilePanel');
+        
+        profileIcon.addEventListener('click', function() {
+            if (profilePanel.style.display === 'block') {
+                profilePanel.style.display = 'none';
+                overlay.style.display = 'none';
+            } else {
+                profilePanel.style.display = 'block';
+                notificationPanel.style.display = 'none';
+                overlay.style.display = 'block';
+            }
+        });
+        
+        // Close panels when clicking overlay
+        overlay.addEventListener('click', function() {
+            notificationPanel.style.display = 'none';
+            profilePanel.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+        
+        // Section navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('homeDashboard').style.display = 'none';
+            document.getElementById('phoneManagement').style.display = 'none';
+            document.getElementById('gameManagement').style.display = 'none';
+            
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update bottom nav active state
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and activate the correct nav item
+            let activeNavIndex = 0;
+            if (sectionId === 'phoneManagement') activeNavIndex = 1;
+            if (sectionId === 'gameManagement') activeNavIndex = 2;
+            
+            navItems[activeNavIndex].classList.add('active');
+        }
+        
+        // Phone tab navigation
+        function showPhoneTab(phoneId, tabName) {
+            // Show the phone detail section
+            document.getElementById(`${phoneId}-details`).style.display = 'block';
+            
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll(`#${phoneId}-details .tab-content`);
+            tabContents.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show the selected tab content
+            document.getElementById(`${phoneId}-${tabName}`).classList.add('active');
+            
+            // Update tab active state
+            const tabs = document.querySelectorAll(`#${phoneId}-details .phone-tab`);
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activate the selected tab
+            document.getElementById(`${phoneId}-${tabName}-tab`).classList.add('active');
+        }
+        
+        // Toast notification
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            toast.className = isError ? 'toast error' : 'toast success';
+            
+            // Set icon based on type
+            if (isError) {
+                toastIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                `;
+            } else {
+                toastIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                `;
+            }
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Add animation classes
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.service-card, .transaction-item, .phone-number-card, .boost-option');
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add('fade-in');
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

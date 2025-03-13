@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Veltrawave - Game Topup</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --primary-color: #1e40af;
+    --secondary-color: #3b82f6;
+    --accent-color: #60a5fa;
+    --light-bg: #f8fafc;
+    --dark-text: #1e293b;
+    --light-text: #f8fafc;
+    --border-color: #e2e8f0;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --transition-speed: 0.3s;
+    --cod-color: #ff6700;
+    --ff-color: #4f46e5; /* Changed from red to indigo */
+    --delta-color: #0066cc;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 70px; /* Space for bottom nav */
+}
+
+/* Games Page Styles */
+.games-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    padding-bottom: 80px;
+}
+
+/* Header Styles */
+.page-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--dark-text);
+    margin-right: 1rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-button:active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Game Switcher */
+.game-switcher {
+    display: flex;
+    background-color: #f1f5f9;
+    border-radius: 1rem;
+    padding: 0.25rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-option {
+    flex: 1;
+    text-align: center;
+    padding: 0.75rem 0;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.game-option.active {
+    color: white;
+}
+
+.switcher-indicator {
+    position: absolute;
+    height: calc(100% - 0.5rem);
+    width: calc(33.333% - 0.5rem);
+    background-color: var(--primary-color);
+    border-radius: 0.75rem;
+    top: 0.25rem;
+    left: 0.25rem;
+    transition: transform 0.3s ease;
+    z-index: 0;
+}
+
+.game-option:nth-child(2).active ~ .switcher-indicator {
+    transform: translateX(100%);
+    background-color: var(--ff-color);
+}
+
+.game-option:nth-child(3).active ~ .switcher-indicator {
+    transform: translateX(200%);
+    background-color: var(--delta-color);
+}
+
+.game-option:first-child.active ~ .switcher-indicator {
+    background-color: var(--cod-color);
+}
+
+/* Game Content */
+.game-content {
+    display: none;
+}
+
+.game-content.active {
+    display: block;
+}
+
+/* Game Header */
+.game-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.game-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-right: 1rem;
+    box-shadow: var(--card-shadow);
+}
+
+.game-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-info {
+    flex: 1;
+}
+
+.game-name {
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.game-description {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* Form Styles */
+.form-container {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #475569;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.form-input.readonly {
+    background-color: #f1f5f9;
+    font-weight: 500;
+}
+
+.form-helper {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.form-helper a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.form-helper a:hover {
+    text-decoration: underline;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.product-card {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow);
+}
+
+/* New selection indicator styles */
+.product-card.selected {
+    border-color: var(--cod-color);
+    background-color: rgba(255, 103, 0, 0.05);
+}
+
+.product-card.selected::before {
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--cod-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: scale(0.8);
+    animation: pop-in 0.3s forwards;
+}
+
+@keyframes pop-in {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.product-image {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.product-name {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.product-price {
+    color: var(--cod-color);
+    font-weight: 600;
+    margin-top: auto;
+}
+
+/* Modern badge styles */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.3rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.badge-hot {
+    background: linear-gradient(135deg, #ff6b00, #ff3300);
+    color: white;
+}
+
+.badge-new {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--cod-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #e55d00;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+    background-color: #ffa366;
+    cursor: not-allowed;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Information Box */
+.info-box {
+    background-color: rgba(255, 103, 0, 0.1);
+    border-left: 4px solid var(--cod-color);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-box-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    color: var(--cod-color);
+}
+
+.info-box-title i {
+    margin-right: 0.5rem;
+}
+
+.info-box-content {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.info-box-content ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+}
+
+.info-box-content li {
+    margin-bottom: 0.25rem;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 0.75rem 0;
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.7rem;
+    transition: color var(--transition-speed);
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+    position: relative;
+}
+
+.nav-item.active .nav-icon::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+/* Toast Notification */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: calc(100% - 2rem);
+    max-width: 400px;
+}
+
+.toast {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    animation: slideInDown 0.3s ease-out forwards;
+    overflow: hidden;
+}
+
+.toast.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.toast.error {
+    border-left: 4px solid var(--danger-color);
+}
+
+.toast.info {
+    border-left: 4px solid var(--primary-color);
+}
+
+.toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    flex-shrink: 0;
+}
+
+.toast.success .toast-icon {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.toast.error .toast-icon {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+.toast.info .toast-icon {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--primary-color);
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-message {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.toast-close {
+    color: #94a3b8;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    margin-left: 0.5rem;
+}
+
+/* Confirmation Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: white;
+    border-radius: 1rem;
+    width: calc(100% - 2rem);
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-header {
+    padding: 1.5rem 1.5rem 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #94a3b8;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background-color: #f1f5f9;
+}
+
+.modal-body {
+    padding: 0.5rem 1.5rem 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-secondary {
+    background-color: #f1f5f9;
+    color: var(--dark-text);
+}
+
+.btn-secondary:hover {
+    background-color: #e2e8f0;
+}
+
+.confirmation-details {
+    background-color: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.confirmation-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.confirmation-item:last-child {
+    margin-bottom: 0;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #e2e8f0;
+    font-weight: 600;
+}
+
+.confirmation-label {
+    color: #64748b;
+}
+
+.confirmation-value {
+    font-weight: 500;
+}
+
+/* Payment Method Styles */
+.payment-methods {
+    margin-top: 1.5rem;
+}
+
+.payment-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.payment-option {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.payment-option:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.payment-option.selected {
+    border-color: var(--primary-color);
+    background-color: rgba(59, 130, 246, 0.05);
+}
+
+.payment-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.5rem;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.payment-info {
+    flex: 1;
+}
+
+.payment-name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.payment-description {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.payment-radio {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.payment-option.selected .payment-radio {
+    border-color: var(--primary-color);
+}
+
+.payment-option.selected .payment-radio::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+/* Wallet Modal */
+.wallet-modal .modal-body {
+    padding-top: 1rem;
+}
+
+.wallet-balance {
+    background-color: #f1f5f9;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.balance-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+}
+
+.balance-amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* Loading Spinner */
+.loading {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translate(-50%, -20px);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutUp {
+    from {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -20px);
+        opacity: 0;
+    }
+}
+
+/* Free Fire specific styles */
+.product-card.selected[data-game="ff"] {
+    border-color: var(--ff-color);
+    background-color: rgba(79, 70, 229, 0.05);
+}
+
+.product-card.selected[data-game="ff"]::before {
+    background-color: var(--ff-color);
+}
+
+.btn-primary[data-game="ff"] {
+    background-color: var(--ff-color);
+}
+
+.btn-primary[data-game="ff"]:hover {
+    background-color: #4338ca;
+}
+
+.info-box[data-game="ff"] {
+    background-color: rgba(79, 70, 229, 0.1);
+    border-left: 4px solid var(--ff-color);
+}
+
+.info-box-title[data-game="ff"] {
+    color: var(--ff-color);
+}
+
+.product-price[data-game="ff"] {
+    color: var(--ff-color);
+}
+
+/* Status indicator for API requests */
+.status-indicator {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    z-index: 9000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.status-indicator.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.status-indicator i {
+    margin-right: 0.5rem;
+}
+
+.status-indicator.success {
+    background-color: var(--success-color);
+}
+
+.status-indicator.error {
+    background-color: var(--danger-color);
+}
+
+.status-indicator.loading {
+    background-color: var(--primary-color);
+}
+
+/* Manual Processing Alert */
+.manual-processing-alert {
+    background-color: rgba(79, 70, 229, 0.1);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid rgba(79, 70, 229, 0.3);
+}
+
+.alert-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(79, 70, 229, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ff-color);
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--ff-color);
+}
+
+.alert-description {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* Vote Feature */
+.vote-container {
+    background-color: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+}
+
+.vote-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.vote-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(79, 70, 229, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ff-color);
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+.vote-title {
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.vote-description {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.vote-progress {
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.vote-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ff-color), #818cf8);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 1s ease;
+}
+
+.vote-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.vote-button {
+    background-color: var(--ff-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.vote-button:hover {
+    background-color: #4338ca;
+}
+
+.vote-button:disabled {
+    background-color: #c7d2fe;
+    cursor: not-allowed;
+}
+
+.vote-button i {
+    margin-right: 0.5rem;
+}
+
+/* FF Popup Modal */
+.ff-popup-modal .modal-body {
+    text-align: center;
+}
+
+.ff-popup-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(79, 70, 229, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ff-color);
+    font-size: 2rem;
+    margin: 0 auto 1.5rem;
+}
+
+.ff-popup-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--dark-text);
+}
+
+.ff-popup-description {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.ff-popup-button {
+    background-color: var(--ff-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.ff-popup-button:hover {
+    background-color: #4338ca;
+}
+</style>
+</head>
+<body>
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Status Indicator -->
+<div class="status-indicator" id="statusIndicator">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span id="statusText">Processing your request...</span>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="confirmationModal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">Confirm Purchase</div>
+            <button class="modal-close" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Please confirm your game topup purchase with the following details:</p>
+            <div class="confirmation-details" id="confirmationDetails">
+                <!-- Details will be populated dynamically -->
+            </div>
+            
+            <div class="payment-methods">
+                <div class="payment-title">Select Payment Method</div>
+                <div class="payment-options" id="paymentOptions">
+                    <div class="payment-option" data-payment="vwallet">
+                        <div class="payment-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="payment-info">
+                            <div class="payment-name">vWallet</div>
+                            <div class="payment-description">Pay using your vWallet balance</div>
+                        </div>
+                        <div class="payment-radio"></div>
+                    </div>
+                    
+                    <div class="payment-option" data-payment="bank">
+                        <div class="payment-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="payment-info">
+                            <div class="payment-name">Bank Transfer</div>
+                            <div class="payment-description">Additional ₦50 charge applies. May take time to process.</div>
+                        </div>
+                        <div class="payment-radio"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelPurchase">Cancel</button>
+            <button class="btn btn-primary" id="confirmPurchase">Confirm Purchase</button>
+        </div>
+    </div>
+</div>
+
+<!-- Wallet Modal -->
+<div class="modal-overlay" id="walletModal">
+    <div class="modal wallet-modal">
+        <div class="modal-header">
+            <div class="modal-title">vWallet Balance</div>
+            <button class="modal-close" id="closeWalletModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="wallet-balance">
+                <div class="balance-label">Your Current Balance</div>
+                <div class="balance-amount">₦25,000.00</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="walletAmount" class="form-label">Enter Amount</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-money-bill input-icon"></i>
+                    <input type="text" id="walletAmount" class="form-input" placeholder="Enter amount">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="cancelWallet">Cancel</button>
+            <button class="btn btn-primary" id="confirmWallet">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- Free Fire Popup Modal -->
+<div class="modal-overlay" id="ffPopupModal">
+    <div class="modal ff-popup-modal">
+        <div class="modal-header">
+            <div class="modal-title">Free Fire Top-up Information</div>
+            <button class="modal-close" id="closeFFPopupModal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="ff-popup-icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <h3 class="ff-popup-title">Manual Processing Required</h3>
+            <p class="ff-popup-description">
+                Please note that Free Fire top-ups are currently processed manually by our admin team. This may take up to 30 minutes to complete during business hours. For faster service, you can enable WhatsApp notifications during checkout.
+            </p>
+            <p class="ff-popup-description">
+                Want automatic processing? Vote for this feature below to help us prioritize development!
+            </p>
+            <button class="ff-popup-button" id="ffPopupContinue">Continue to Free Fire Top-up</button>
+        </div>
+    </div>
+</div>
+
+<!-- Games Page -->
+<div class="games-container">
+    <div class="page-header">
+        <button class="back-button" onclick="window.location.href='dashboard.html'">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1 class="page-title">Game Topup</h1>
+    </div>
+
+    <div class="game-switcher">
+        <div class="game-option active" data-game="cod">Call of Duty</div>
+        <div class="game-option" data-game="ff">Free Fire</div>
+        <div class="game-option" data-game="delta">Delta Force</div>
+        <div class="switcher-indicator"></div>
+    </div>
+
+    <!-- COD Content -->
+    <div class="game-content active" id="cod-content">
+        <div class="game-header">
+            <div class="game-logo">
+                <img src="https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/mobile/home/features/CODM_LOGO_FINAL.png" alt="Call of Duty">
+            </div>
+            <div class="game-info">
+                <div class="game-name">Call of Duty Mobile</div>
+                <div class="game-description">Purchase CP (COD Points) for Call of Duty Mobile</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="info-box-title">
+                <i class="fas fa-info-circle"></i>
+                <span>How to find your UID</span>
+            </div>
+            <div class="info-box-content">
+                Your UID can be found in your profile. Open COD Mobile, tap on your profile picture, and look for the UID number.
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="codForm">
+                <div class="form-group">
+                    <label for="codUID" class="form-label">Enter your COD Mobile UID</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="codUID" class="form-input" placeholder="Enter your 12-digit UID" maxlength="12">
+                    </div>
+                    <div class="form-helper">
+                        Enter your 12-digit UID found in your profile.
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codShortUID" class="form-label">Shortened UID (8 digits)</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card input-icon"></i>
+                        <input type="text" id="codShortUID" class="form-input readonly" readonly>
+                    </div>
+                    <div class="form-helper">
+                        This is the 8-digit UID that will be used for your purchase.
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Select CP Package</h3>
+        
+        <div class="product-grid">
+            <div class="product-card" data-product-id="1" data-price="594" data-game="cod" data-index="1">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="30 CP">
+                </div>
+                <div class="product-name">30 CP</div>
+                <div class="product-price">₦594</div>
+            </div>
+            
+            <div class="product-card" data-product-id="2" data-price="1485" data-game="cod" data-index="2">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="80 CP">
+                </div>
+                <div class="product-name">80 CP</div>
+                <div class="product-price">₦1,485</div>
+            </div>
+            
+            <div class="product-card" data-product-id="3" data-price="7425" data-game="cod" data-index="3">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="420 CP">
+                </div>
+                <div class="product-name">420 CP</div>
+                <div class="product-price">₦7,425</div>
+            </div>
+            
+            <div class="product-card" data-product-id="4" data-price="14850" data-game="cod" data-index="4">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="880 CP">
+                </div>
+                <div class="product-name">880 CP</div>
+                <div class="product-price">₦14,850</div>
+            </div>
+            
+            <div class="product-card" data-product-id="5" data-price="37125" data-game="cod" data-index="5">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="2400 CP">
+                </div>
+                <div class="product-name">2400 CP</div>
+                <div class="product-price">₦37,125</div>
+            </div>
+            
+            <div class="product-card" data-product-id="6" data-price="74250" data-game="cod" data-index="6">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="5000 CP">
+                </div>
+                <div class="product-name">5000 CP</div>
+                <div class="product-price">₦74,250</div>
+            </div>
+            
+            <!-- Added missing products -->
+            <div class="product-card" data-product-id="7" data-price="148500" data-game="cod" data-index="7">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="10800 CP">
+                </div>
+                <div class="product-name">10800 CP</div>
+                <div class="product-price">₦148,500</div>
+            </div>
+            
+            <div class="product-card" data-product-id="8" data-price="289575" data-game="cod" data-index="8">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="21600 CP">
+                </div>
+                <div class="product-name">21600 CP</div>
+                <div class="product-price">₦289,575</div>
+            </div>
+            
+            <div class="product-card" data-product-id="9" data-price="430650" data-game="cod" data-index="9">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="32400 CP">
+                </div>
+                <div class="product-name">32400 CP</div>
+                <div class="product-price">₦430,650</div>
+            </div>
+            
+            <div class="product-card" data-product-id="10" data-price="564300" data-game="cod" data-index="10">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="43200 CP">
+                </div>
+                <div class="product-name">43200 CP</div>
+                <div class="product-price">₦564,300</div>
+            </div>
+            
+            <div class="product-card" data-product-id="11" data-price="697950" data-game="cod" data-index="11">
+                <div class="product-image">
+                    <img src="https://static.wikia.nocookie.net/callofduty/images/9/9a/CODPoints_BOCW.png" alt="54000 CP">
+                </div>
+                <div class="product-name">54000 CP</div>
+                <div class="product-price">₦697,950</div>
+            </div>
+            <!-- End of added missing products -->
+            
+            <div class="product-card" data-product-id="12" data-price="6660" data-game="cod" data-index="12">
+                <div class="product-image">
+                    <img src="https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/mw-wz/WZ-Season-Three-Battle-Pass-001.jpg" alt="Battle Pass">
+                </div>
+                <div class="product-name">Battle Pass</div>
+                <div class="product-price">₦6,660</div>
+            </div>
+            
+            <div class="product-card" data-product-id="13" data-price="16335" data-game="cod" data-index="13">
+                <div class="product-image">
+                    <img src="https://www.callofduty.com/content/dam/atvi/callofduty/cod-touchui/blog/body/mw-wz/WZ-Season-Three-Battle-Pass-001.jpg" alt="Battle Pass Bundle">
+                </div>
+                <div class="product-name">Battle Pass Bundle</div>
+                <div class="product-price">₦16,335</div>
+            </div>
+        </div>
+
+        <button id="codSubmitButton" class="btn btn-primary btn-block" disabled>
+            <span id="codButtonText">Purchase Now</span>
+        </button>
+    </div>
+
+    <!-- Free Fire Content -->
+    <div class="game-content" id="ff-content">
+        <div class="game-header">
+            <div class="game-logo">
+                <img src="https://play-lh.googleusercontent.com/WWcssdzTZvx7Fc84lfGOMhp5x0DTqzDxwmHDHpVjTLNZzDxEKjUkqaD7I3_NUVLQKkE" alt="Free Fire">
+            </div>
+            <div class="game-info">
+                <div class="game-name">Free Fire</div>
+                <div class="game-description">Purchase diamonds for Free Fire MENA servers</div>
+            </div>
+        </div>
+
+        <!-- Manual Processing Alert -->
+        <div class="manual-processing-alert">
+            <div class="alert-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="alert-content">
+                <div class="alert-title">Manual Processing</div>
+                <div class="alert-description">
+                    Free Fire top-ups are currently processed manually by our admin team. This may take up to 30 minutes to complete during business hours.
+                </div>
+            </div>
+        </div>
+
+        <!-- Vote Feature -->
+        <div class="vote-container">
+            <div class="vote-header">
+                <div class="vote-icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <div class="vote-title">Vote for Automatic Processing</div>
+            </div>
+            <div class="vote-description">
+                We're considering adding automatic processing for Free Fire top-ups. Vote to help us prioritize this feature!
+            </div>
+            <div class="vote-progress">
+                <div class="vote-bar" id="voteBar" style="width: 68%;"></div>
+            </div>
+            <div class="vote-stats">
+                <div class="vote-count"><span id="voteCount">342</span> votes</div>
+                <div class="vote-goal">Goal: 500 votes</div>
+            </div>
+            <button class="vote-button" id="voteButton">
+                <i class="fas fa-thumbs-up"></i> Vote for this feature
+            </button>
+        </div>
+
+        <div class="info-box" data-game="ff">
+            <div class="info-box-title" data-game="ff">
+                <i class="fas fa-info-circle"></i>
+                <span>How to find your Player ID</span>
+            </div>
+            <div class="info-box-content">
+                Your Player ID can be found in your profile. Open Free Fire, tap on your profile picture in the top-left corner, and look for the ID number.
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="ffForm">
+                <div class="form-group">
+                    <label for="ffPlayerId" class="form-label">Enter your Free Fire Player ID</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="ffPlayerId" class="form-input" placeholder="Enter your Player ID">
+                    </div>
+                    <div class="form-helper">
+                        Enter your Player ID found in your profile. MENA servers only.
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Select Diamond Package</h3>
+        
+        <div class="product-grid">
+            <div class="product-card" data-product-id="1" data-price="2475" data-game="ff" data-index="0">
+                <div class="product-image">
+                    <img src="https://img.fresherslive.com/latestnews/images/articles/origin/2020/10/19/how-to-get-free-diamonds-in-free-fire-5f8d72b3d7c3e-1603107507.jpg" alt="530 Diamonds">
+                </div>
+                <div class="product-name">530 Diamonds</div>
+                <div class="badge badge-hot">+53 Free</div>
+                <div class="product-price" data-game="ff">₦2,475</div>
+            </div>
+            
+            <div class="product-card" data-product-id="2" data-price="4950" data-game="ff" data-index="1">
+                <div class="product-image">
+                    <img src="https://img.fresherslive.com/latestnews/images/articles/origin/2020/10/19/how-to-get-free-diamonds-in-free-fire-5f8d72b3d7c3e-1603107507.jpg" alt="1,080 Diamonds">
+                </div>
+                <div class="product-name">1,080 Diamonds</div>
+                <div class="badge badge-hot">+108 Free</div>
+                <div class="product-price" data-game="ff">₦4,950</div>
+            </div>
+            
+            <div class="product-card" data-product-id="3" data-price="9900" data-game="ff" data-index="2">
+                <div class="product-image">
+                    <img src="https://img.fresherslive.com/latestnews/images/articles/origin/2020/10/19/how-to-get-free-diamonds-in-free-fire-5f8d72b3d7c3e-1603107507.jpg" alt="2,200 Diamonds">
+                </div>
+                <div class="product-name">2,200 Diamonds</div>
+                <div class="badge badge-hot">+220 Free</div>
+                <div class="product-price" data-game="ff">₦9,900</div>
+            </div>
+            
+            <div class="product-card" data-product-id="4" data-price="24750" data-game="ff" data-index="3">
+                <div class="product-image">
+                    <img src="https://img.fresherslive.com/latestnews/images/articles/origin/2020/10/19/how-to-get-free-diamonds-in-free-fire-5f8d72b3d7c3e-1603107507.jpg" alt="5,600 Diamonds">
+                </div>
+                <div class="product-name">5,600 Diamonds</div>
+                <div class="badge badge-hot">+560 Free</div>
+                <div class="product-price" data-game="ff">₦24,750</div>
+            </div>
+
+            <div class="product-card" data-product-id="5" data-price="990" data-game="ff" data-index="4">
+                <div class="product-image">
+                    <img src="https://staticg.sportskeeda.com/editor/2021/06/b5af0-16222440520593-800.jpg" alt="Weekly Membership">
+                </div>
+                <div class="product-name">Weekly Membership</div>
+                <div class="badge badge-hot">Hot</div>
+                <div class="product-price" data-game="ff">₦990</div>
+            </div>
+            
+            <div class="product-card" data-product-id="6" data-price="3960" data-game="ff" data-index="5">
+                <div class="product-image">
+                    <img src="https://staticg.sportskeeda.com/editor/2021/06/b5af0-16222440520593-800.jpg" alt="Monthly Membership">
+                </div>
+                <div class="product-name">Monthly Membership</div>
+                <div class="badge badge-hot">Hot</div>
+                <div class="product-price" data-game="ff">₦3,960</div>
+            </div>
+            
+            <div class="product-card" data-product-id="7" data-price="2475" data-game="ff" data-index="6">
+                <div class="product-image">
+                    <img src="https://img.gurugamer.com/resize/1200x-/2020/07/27/free-fire-level-up-pass-season-26-rewards-a5a9.jpg" alt="Level Up Pass">
+                </div>
+                <div class="product-name">Level Up Pass</div>
+                <div class="badge badge-new">New</div>
+                <div class="product-price" data-game="ff">₦2,475</div>
+            </div>
+            
+            <div class="product-card" data-product-id="8" data-price="4950" data-game="ff" data-index="7">
+                <div class="product-image">
+                    <img src="https://staticg.sportskeeda.com/editor/2022/12/c8d7e-16714348242969-1920.jpg" alt="Booyah Pass Card">
+                </div>
+                <div class="product-name">Booyah Pass Card</div>
+                <div class="product-price" data-game="ff">₦4,950</div>
+            </div>
+        </div>
+
+        <button id="ffSubmitButton" class="btn btn-primary btn-block" data-game="ff" disabled>
+            <span id="ffButtonText">Purchase Now</span>
+        </button>
+    </div>
+
+    <!-- Delta Force Content -->
+    <div class="game-content" id="delta-content">
+        <div class="game-header">
+            <div class="game-logo">
+                <img src="https://play-lh.googleusercontent.com/LByrURPLbTWVlB0EZSsJ5vPcHxL6SC3-f0o5S-WQFJjdk5oR9nCQQZTxScDDd9Ioesc" alt="Delta Force">
+            </div>
+            <div class="game-info">
+                <div class="game-name">Delta Force</div>
+                <div class="game-description">Coming soon! Purchase credits for Delta Force.</div>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 3rem 0;">
+            <i class="fas fa-tools" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+            <h3>Coming Soon</h3>
+            <p style="color: #64748b; margin-top: 0.5rem;">Delta Force topup will be available soon.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-home"></i></div>
+        <div class="nav-label">Home</div>
+    </a>
+    <a href="games.html" class="nav-item active">
+        <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+        <div class="nav-label">Game TOP UP</div>
+    </a>
+    <a href="store.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+        <div class="nav-label">Store</div>
+    </a>
+
+    <a href="profile.html" class="nav-item">
+        <div class="nav-icon"><i class="fas fa-user"></i></div>
+        <div class="nav-label">Profile</div>
+    </a>
+</div>
+
+<script>
+// API endpoint
+const API_ENDPOINT = "/submit";
+
+// DOM elements
+const gameOptions = document.querySelectorAll('.game-option');
+const gameContents = document.querySelectorAll('.game-content');
+const codUID = document.getElementById('codUID');
+const codShortUID = document.getElementById('codShortUID');
+const productCards = document.querySelectorAll('.product-card');
+const codSubmitButton = document.getElementById('codSubmitButton');
+const codButtonText = document.getElementById('codButtonText');
+const confirmationModal = document.getElementById('confirmationModal');
+const confirmationDetails = document.getElementById('confirmationDetails');
+const closeModal = document.getElementById('closeModal');
+const cancelPurchase = document.getElementById('cancelPurchase');
+const confirmPurchase = document.getElementById('confirmPurchase');
+const walletModal = document.getElementById('walletModal');
+const closeWalletModal = document.getElementById('closeWalletModal');
+const cancelWallet = document.getElementById('cancelWallet');
+const confirmWallet = document.getElementById('confirmWallet');
+const paymentOptions = document.getElementById('paymentOptions');
+const statusIndicator = document.getElementById('statusIndicator');
+const statusText = document.getElementById('statusText');
+const ffPopupModal = document.getElementById('ffPopupModal');
+const closeFFPopupModal = document.getElementById('closeFFPopupModal');
+const ffPopupContinue = document.getElementById('ffPopupContinue');
+const voteButton = document.getElementById('voteButton');
+const voteCount = document.getElementById('voteCount');
+const voteBar = document.getElementById('voteBar');
+
+// State variables
+let selectedProduct = null;
+let selectedProductPrice = 0;
+let selectedProductIndex = null;
+let isLoading = false;
+let selectedFFProduct = null;
+let selectedFFProductPrice = 0;
+let selectedFFProductIndex = null;
+let selectedPaymentMethod = null;
+let currentGame = 'cod';
+let hasVoted = localStorage.getItem('ffVoted') === 'true';
+let ffPopupShown = localStorage.getItem('ffPopupShown') === 'true';
+
+// Initialize page
+function initPage() {
+    // Set up game switcher
+    gameOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const game = option.dataset.game;
+            currentGame = game;
+            switchGame(game);
+            
+            // Show FF popup if switching to FF and popup hasn't been shown
+            if (game === 'ff' && !ffPopupShown) {
+                showFFPopupModal();
+                localStorage.setItem('ffPopupShown', 'true');
+                ffPopupShown = true;
+            }
+        });
+    });
+
+    // Set up UID input
+    codUID.addEventListener('input', function() {
+        // Only allow numbers
+        this.value = this.value.replace(/[^0-9]/g, '');
+        
+        // Update shortened UID
+        updateShortUID();
+        
+        // Update button state
+        updateSubmitButtonState();
+    });
+
+    // Set up product cards
+    document.querySelectorAll('#cod-content .product-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const productId = parseInt(card.dataset.productId);
+            const price = parseInt(card.dataset.price);
+            const index = parseInt(card.dataset.index);
+            selectProduct(productId, price, index, card, 'cod');
+        });
+    });
+
+    // Set up submit button
+    codSubmitButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (!codUID.value || !selectedProduct) {
+            showToast('Please enter your UID and select a product', 'error');
+            return;
+        }
+        
+        showConfirmationModal('cod');
+    });
+
+    // Modal event listeners
+    closeModal.addEventListener('click', hideConfirmationModal);
+    cancelPurchase.addEventListener('click', hideConfirmationModal);
+    confirmPurchase.addEventListener('click', processGamePurchase);
+
+    // Set up Free Fire form and cards
+    const ffPlayerId = document.getElementById('ffPlayerId');
+    const ffSubmitButton = document.getElementById('ffSubmitButton');
+    const ffButtonText = document.getElementById('ffButtonText');
+    
+    ffPlayerId.addEventListener('input', function() {
+        // Update FF button state
+        updateFFSubmitButtonState();
+    });
+    
+    // Add click events to Free Fire product cards
+    document.querySelectorAll('#ff-content .product-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const productId = parseInt(card.dataset.productId);
+            const price = parseInt(card.dataset.price);
+            const index = parseInt(card.dataset.index);
+            selectProduct(productId, price, index, card, 'ff');
+        });
+    });
+    
+    // Set up Free Fire submit button
+    ffSubmitButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (!ffPlayerId.value || !selectedFFProduct) {
+            showToast('Please enter your Player ID and select a package', 'error');
+            return;
+        }
+        
+        showConfirmationModal('ff');
+    });
+
+    // Set up payment options
+    paymentOptions.addEventListener('click', function(e) {
+        const option = e.target.closest('.payment-option');
+        if (!option) return;
+        
+        const paymentMethod = option.dataset.payment;
+        selectPaymentMethod(paymentMethod);
+        
+        if (paymentMethod === 'vwallet') {
+            hideConfirmationModal();
+            showWalletModal();
+        }
+    });
+    
+    // Wallet modal event listeners
+    closeWalletModal.addEventListener('click', hideWalletModal);
+    cancelWallet.addEventListener('click', hideWalletModal);
+    confirmWallet.addEventListener('click', function() {
+        hideWalletModal();
+        showConfirmationModal(currentGame);
+        selectPaymentMethod('vwallet');
+    });
+    
+    // FF Popup modal event listeners
+    closeFFPopupModal.addEventListener('click', hideFFPopupModal);
+    ffPopupContinue.addEventListener('click', hideFFPopupModal);
+    
+    // Vote button event listener
+    voteButton.addEventListener('click', function() {
+        if (!hasVoted) {
+            // Increment vote count
+            const currentVotes = parseInt(voteCount.textContent);
+            voteCount.textContent = currentVotes + 1;
+            
+            // Update progress bar
+            const newWidth = Math.min(((currentVotes + 1) / 500) * 100, 100);
+            voteBar.style.width = newWidth + '%';
+            
+            // Disable button and mark as voted
+            voteButton.disabled = true;
+            voteButton.innerHTML = '<i class="fas fa-check"></i> Thanks for voting!';
+            
+            // Save vote in localStorage
+            localStorage.setItem('ffVoted', 'true');
+            hasVoted = true;
+            
+            // Show toast
+            showToast('Thanks for your vote! We\'ll work on this feature.', 'success');
+        }
+    });
+    
+    // Initialize vote button state
+    if (hasVoted) {
+        voteButton.disabled = true;
+        voteButton.innerHTML = '<i class="fas fa-check"></i> Thanks for voting!';
+    }
+}
+
+// Switch game
+function switchGame(game) {
+    // Update game options
+    gameOptions.forEach(option => {
+        if (option.dataset.game === game) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
+    
+    // Update game contents
+    gameContents.forEach(content => {
+        if (content.id === `${game}-content`) {
+            content.classList.add('active');
+        } else {
+            content.classList.remove('active');
+        }
+    });
+    
+    // Update current game
+    currentGame = game;
+}
+
+// Update shortened UID
+function updateShortUID() {
+    const fullUID = codUID.value;
+    
+    if (fullUID.length >= 8) {
+        codShortUID.value = fullUID.substring(0, 8);
+    } else {
+        codShortUID.value = '';
+    }
+}
+
+// Select product
+function selectProduct(productId, price, index, card, game) {
+    // Reset previous selection for the specific game
+    document.querySelectorAll(`.product-card[data-game="${game}"]`).forEach(c => c.classList.remove('selected'));
+    
+    // Set new selection
+    card.classList.add('selected');
+    
+    // Update state based on game
+    if (game === 'cod') {
+        selectedProduct = productId;
+        selectedProductPrice = price;
+        selectedProductIndex = index;
+        updateSubmitButtonState();
+    } else if (game === 'ff') {
+        selectedFFProduct = productId;
+        selectedFFProductPrice = price;
+        selectedFFProductIndex = index;
+        updateFFSubmitButtonState();
+    }
+}
+
+// Update submit button state
+function updateSubmitButtonState() {
+    const isFormValid = 
+        codUID.value.length >= 8 && 
+        selectedProduct &&
+        !isLoading;
+    
+    codSubmitButton.disabled = !isFormValid;
+}
+
+// Update FF submit button state
+function updateFFSubmitButtonState() {
+    const ffPlayerId = document.getElementById('ffPlayerId');
+    const ffSubmitButton = document.getElementById('ffSubmitButton');
+    
+    const isFormValid = 
+        ffPlayerId && ffPlayerId.value.length > 0 && 
+        selectedFFProduct &&
+        !isLoading;
+        
+    ffSubmitButton.disabled = !isFormValid;
+}
+
+// Select payment method
+function selectPaymentMethod(method) {
+    // Reset previous selection
+    document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    // Set new selection
+    const selectedOption = document.querySelector(`.payment-option[data-payment="${method}"]`);
+    if (selectedOption) {
+        selectedOption.classList.add('selected');
+    }
+    
+    // Update state
+    selectedPaymentMethod = method;
+    
+    // Update confirm button text based on payment method
+    if (method === 'bank') {
+        confirmPurchase.innerHTML = 'Pay with Bank Transfer';
+    } else if (method === 'vwallet') {
+        confirmPurchase.innerHTML = 'Pay with vWallet';
+    } else {
+        confirmPurchase.innerHTML = 'Confirm Purchase';
+    }
+}
+
+// Show status indicator
+function showStatus(message, type = 'loading') {
+    statusText.textContent = message;
+    statusIndicator.className = 'status-indicator active ' + type;
+    
+    if (type === 'loading') {
+        statusIndicator.innerHTML = '<i class="fas fa-spinner fa-spin"></i>' + message;
+    } else if (type === 'success') {
+        statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i>' + message;
+    } else if (type === 'error') {
+        statusIndicator.innerHTML = '<i class="fas fa-exclamation-circle"></i>' + message;
+    }
+    
+    // Auto hide after 3 seconds for success/error
+    if (type !== 'loading') {
+        setTimeout(() => {
+            hideStatus();
+        }, 3000);
+    }
+}
+
+// Hide status indicator
+function hideStatus() {
+    statusIndicator.className = 'status-indicator';
+}
+
+// Set loading state
+function setLoading(loading) {
+    isLoading = loading;
+    
+    if (loading) {
+        codButtonText.innerHTML = '<span class="loading"></span>Processing...';
+    } else {
+        codButtonText.innerHTML = 'Purchase Now';
+    }
+    
+    codSubmitButton.disabled = loading;
+}
+
+// Show toast notification
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    let icon = '';
+    if (type === 'success') {
+        icon = '<i class="fas fa-check-circle"></i>';
+    } else if (type === 'error') {
+        icon = '<i class="fas fa-exclamation-circle"></i>';
+    } else {
+        icon = '<i class="fas fa-info-circle"></i>';
+    }
+    
+    toast.innerHTML = `
+        <div class="toast-icon">${icon}</div>
+        <div class="toast-content">
+            <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+    
+    const toastContainer = document.getElementById('toastContainer');
+    toastContainer.appendChild(toast);
+    
+    // Add close event
+    toast.querySelector('.toast-close').addEventListener('click', () => {
+        toast.remove();
+    });
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideOutUp 0.3s ease-out forwards';
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 5000);
+}
+
+// Show confirmation modal
+function showConfirmationModal(game) {
+    let productId, productPrice, productIndex, playerId, productName, gameName;
+    
+    if (game === 'cod') {
+        productId = selectedProduct;
+        productPrice = selectedProductPrice;
+        productIndex = selectedProductIndex;
+        playerId = codShortUID.value;
+        gameName = 'Call of Duty Mobile';
+        
+        // Find product name
+        const selectedCard = document.querySelector(`#cod-content .product-card[data-product-id="${productId}"]`);
+        productName = selectedCard.querySelector('.product-name').textContent;
+        
+        // Update confirmation button styles for COD
+        confirmPurchase.style.backgroundColor = 'var(--cod-color)';
+    } else if (game === 'ff') {
+        productId = selectedFFProduct;
+        productPrice = selectedFFProductPrice;
+        productIndex = selectedFFProductIndex;
+        playerId = document.getElementById('ffPlayerId').value;
+        gameName = 'Free Fire';
+        
+        // Find product name
+        const selectedCard = document.querySelector(`#ff-content .product-card[data-product-id="${productId}"]`);
+        productName = selectedCard.querySelector('.product-name').textContent;
+        
+        // Update confirmation button styles for Free Fire
+        confirmPurchase.style.backgroundColor = 'var(--ff-color)';
+    }
+    
+    confirmationDetails.innerHTML = `
+        <div class="confirmation-item">
+            <span class="confirmation-label">Game:</span>
+            <span class="confirmation-value">${gameName}</span>
+        </div>
+        <div class="confirmation-item">
+            <span class="confirmation-label">Player ID:</span>
+            <span class="confirmation-value">${playerId}</span>
+        </div>
+        <div class="confirmation-item">
+            <span class="confirmation-label">Product:</span>
+            <span class="confirmation-value">${productName}</span>
+        </div>
+        <div class="confirmation-item">
+            <span class="confirmation-label">Amount:</span>
+            <span class="confirmation-value">₦${productPrice.toLocaleString()}</span>
+        </div>
+    `;
+    
+    // Reset payment method selection
+    document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    selectedPaymentMethod = null;
+    confirmPurchase.innerHTML = 'Confirm Purchase';
+    
+    // Show modal
+    confirmationModal.classList.add('active');
+}
+
+// Hide confirmation modal
+function hideConfirmationModal() {
+    confirmationModal.classList.remove('active');
+}
+
+// Show wallet modal
+function showWalletModal() {
+    walletModal.classList.add('active');
+}
+
+// Hide wallet modal
+function hideWalletModal() {
+    walletModal.classList.remove('active');
+}
+
+// Show FF popup modal
+function showFFPopupModal() {
+    ffPopupModal.classList.add('active');
+}
+
+// Hide FF popup modal
+function hideFFPopupModal() {
+    ffPopupModal.classList.remove('active');
+}
+
+// Process game purchase
+async function processGamePurchase() {
+    if (!selectedPaymentMethod) {
+        showToast('Please select a payment method', 'error');
+        return;
+    }
+    
+    // Show loading state in modal
+    confirmPurchase.innerHTML = '<span class="loading"></span>Processing...';
+    confirmPurchase.disabled = true;
+    cancelPurchase.disabled = true;
+    
+    // Hide modal and show status indicator
+    hideConfirmationModal();
+    showStatus('Processing your purchase...', 'loading');
+    
+    try {
+        let gameType, playerId, productIndex;
+        
+        if (currentGame === 'cod') {
+            gameType = 'cod';
+            playerId = codShortUID.value;
+            productIndex = selectedProductIndex;
+        } else if (currentGame === 'ff') {
+            gameType = 'ff';
+            playerId = document.getElementById('ffPlayerId').value;
+            productIndex = selectedFFProductIndex;
+        }
+        
+        // Prepare data for API request
+        const requestData = {
+            game: gameType,
+            playerId: playerId,
+            productIndex: productIndex
+        };
+        
+        // Send API request
+        const response = await fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Show success status
+            showStatus('Purchase successful!', 'success');
+            
+            // Show success toast
+            showToast(data.message, 'success');
+            
+            // Reset form
+            if (currentGame === 'cod') {
+                resetForm('cod');
+            } else if (currentGame === 'ff') {
+                resetForm('ff');
+            }
+        } else {
+            // Show error status
+            showStatus('Purchase failed. Please try again.', 'error');
+            
+            // Show error toast
+            showToast(data.message || 'An error occurred while processing your purchase.', 'error');
+        }
+    } catch (error) {
+        console.error('Error processing purchase:', error);
+        
+        // Show error status
+        showStatus('Network error. Please try again.', 'error');
+        
+        // Show error toast
+        showToast('Network error. Please check your connection and try again.', 'error');
+    } finally {
+        // Reset button states
+        confirmPurchase.innerHTML = 'Confirm Purchase';
+        confirmPurchase.disabled = false;
+        cancelPurchase.disabled = false;
+    }
+}
+
+// Reset form
+function resetForm(game) {
+    if (game === 'cod') {
+        codUID.value = '';
+        codShortUID.value = '';
+        selectedProduct = null;
+        selectedProductPrice = 0;
+        selectedProductIndex = null;
+        
+        // Reset UI
+        document.querySelectorAll('#cod-content .product-card').forEach(card => card.classList.remove('selected'));
+        
+        // Update button state
+        updateSubmitButtonState();
+    } else if (game === 'ff') {
+        document.getElementById('ffPlayerId').value = '';
+        selectedFFProduct = null;
+        selectedFFProductPrice = 0;
+        selectedFFProductIndex = null;
+        
+        // Reset UI
+        document.querySelectorAll('#ff-content .product-card').forEach(card => card.classList.remove('selected'));
+        
+        // Update button state
+        updateFFSubmitButtonState();
+    }
+}
+
+// Initialize the page
+initPage();
+</script>
+</body>
+</html>

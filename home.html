@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VeltraWave - Digital Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #3b82f6;
+            --accent-color: #60a5fa;
+            --light-bg: #f0f7ff;
+            --dark-text: #1e293b;
+            --light-text: #f8fafc;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition-speed: 0.3s;
+            --grey-text: #64748b;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            padding-bottom: 80px;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .login-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: transparent;
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .signup-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .signup-btn:hover {
+            background-color: #1e3a8a;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: white;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            background-image: url('https://images.unsplash.com/photo-1557682250-33bd709cbe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.9), rgba(59, 130, 246, 0.8));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            border: 2px solid white;
+        }
+
+        .hero-btn:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+        .hero-btn-secondary {
+            display: inline-block;
+            background-color: transparent;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+
+        .hero-btn-secondary:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--grey-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .service-title .badge {
+            background-color: var(--success-color);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+
+        .service-description {
+            color: var(--grey-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .service-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color var(--transition-speed);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .service-button:hover {
+            background-color: #1e3a8a;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            margin: 3rem 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .pricing-card {
+            background-color: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed);
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured::before {
+            content: 'BEST VALUE';
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background-color: var(--success-color);
+            color: white;
+            padding: 0.25rem 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+
+        .pricing-header {
+            padding: 1.5rem;
+            background-color: var(--light-bg);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .pricing-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-validity {
+            font-size: 0.9rem;
+            color: var(--grey-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-data {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .pricing-content {
+            padding: 1.5rem;
+        }
+
+        .pricing-description {
+            font-size: 0.9rem;
+            color: var(--grey-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .pricing-button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color var(--transition-speed);
+        }
+
+        .pricing-button:hover {
+            background-color: #1e3a8a;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 0 auto 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+
+        .feature-description {
+            color: var(--grey-text);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+            margin: 3rem 0;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-speed);
+            border: 2px solid white;
+        }
+
+        .cta-btn:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+        /* Store Promo */
+        .store-promo {
+            background-color: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .store-promo-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .store-promo-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .store-promo-description {
+            color: var(--grey-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .store-promo-image {
+            flex: 1;
+            min-width: 300px;
+            height: 250px;
+            background-image: url('https://images.unsplash.com/photo-1556656793-08538906a9f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo i {
+            margin-right: 0.5rem;
+        }
+
+        .footer-description {
+            color: var(--grey-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: all var(--transition-speed);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-text);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link a {
+            color: var(--grey-text);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-link a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--grey-text);
+            font-size: 0.9rem;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem 0;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            border-top: 1px solid rgba(226, 232, 240, 0.8);
+            height: 60px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: color var(--transition-speed);
+            width: 20%;
+            height: 100%;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+            position: relative;
+        }
+
+        .nav-item.active .nav-icon::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            right: -300px;
+            top: 20px;
+            padding: 12px 24px;
+            background-color: #333;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: right 0.3s ease-in-out;
+            max-width: 280px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toast.show {
+            right: 20px;
+        }
+
+        .toast.success {
+            background-color: var(--success-color);
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
+        }
+
+        .toast-icon {
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .hero-btn, .hero-btn-secondary {
+                display: block;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            .hero-btn-secondary {
+                margin-left: 0;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .auth-buttons {
+                gap: 0.5rem;
+            }
+
+            .login-btn, .signup-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div id="toastMessage"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-bolt"></i> VeltraWave
+            </div>
+            <nav class="nav-menu">
+                <a href="home.html" class="nav-link active">Home</a>
+                <a href="signup.html" class="nav-link">Store</a>
+                <a href="service.html" class="nav-link">Services</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Log In</a>
+                <a href="signup.html" class="signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Your One-Stop Digital Services Platform</h1>
+                <p class="hero-subtitle">Get access to affordable data plans, airtime, cable subscriptions, foreign phone numbers, and gaming services - all in one place.</p>
+                <a href="service.html" class="hero-btn">Explore Services</a>
+                <a href="signup.html" class="hero-btn-secondary">Sign Up</a>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing-section">
+            <div class="section-header">
+                <h2 class="section-title">Unbeatable Data Prices</h2>
+                <p class="section-subtitle">Check out our exclusive MTN data plans with the cheapest rates in the market</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- 600MB Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-name">Quick Browse</div>
+                        <div class="pricing-validity">7 Days</div>
+                        <div class="pricing-data">600MB</div>
+                        <div class="pricing-price">₦200</div>
+                    </div>
+                    <div class="pricing-content">
+                        <p class="pricing-description">
+                            Perfect for light browsing, social media, and messaging apps.
+                        </p>
+                        <a href="signup.html" class="pricing-button">Get Plan</a>
+                    </div>
+                </div>
+
+                <!-- 13GB Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-name">Standard Plan</div>
+                        <div class="pricing-validity">7 Days</div>
+                        <div class="pricing-data">13GB</div>
+                        <div class="pricing-price">₦2,000</div>
+                    </div>
+                    <div class="pricing-content">
+                        <p class="pricing-description">
+                            Great for streaming videos, online meetings, and moderate downloads.
+                        </p>
+                        <a href="signup.html" class="pricing-button">Get Plan</a>
+                    </div>
+                </div>
+
+                <!-- 18GB Plan -->
+                <div class="pricing-card featured">
+                    <div class="pricingal-header">
+                        <div class="pricing-name">Premium Plan</div>
+                        <div class="pricing-validity">7 Days</div>
+                        <div class="pricing-data">18GB</div>
+                        <div class="pricing-price">₦3,500</div>
+                    </div>
+                    <div class="pricing-content">
+                        <p class="pricing-description">
+                            Ideal for heavy streaming, gaming, and sharing hotspot with multiple devices.
+                        </p>
+                        <a href="signup.html" class="pricing-button">Get Plan</a>
+                    </div>
+                </div>
+
+                <!-- 22GB Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-name">Ultra Plan</div>
+                        <div class="pricing-validity">7 Days</div>
+                        <div class="pricing-data">22GB</div>
+                        <div class="pricing-price">₦4,000</div>
+                    </div>
+                    <div class="pricing-content">
+                        <p class="pricing-description">
+                            Our best plan for unlimited entertainment, HD streaming, and intensive downloads.
+                        </p>
+                        <a href="signup.html" class="pricing-button">Get Plan</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Store Promo -->
+        <section class="store-promo">
+            <div class="store-promo-content">
+                <h2 class="store-promo-title">Visit Our Store for Exclusive Deals!</h2>
+                <p class="store-promo-description">
+                    Discover our complete range of digital services at unbeatable prices. From data bundles to airtime, cable subscriptions, and more - all available at the VeltraWave Store.
+                </p>
+                <a href="store.html" class="service-button">Visit Store</a>
+            </div>
+            <div class="store-promo-image"></div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Our Services</h2>
+                <p class="section-subtitle">Discover our wide range of digital services designed to meet your everyday needs.</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Data Deals Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cheap Data Deals" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h3 class="service-title">Cheap Data Deals <span class="badge">BEST SELLER</span></h3>
+                        <p class="service-description">
+                            Get the cheapest data plans for all networks. Browse, stream, and download without worrying about high costs.
+                        </p>
+                        <a href="signup.html" class="service-button">View Plans</a>
+                    </div>
+                </div>
+
+                <!-- MTN Special Data Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1595401481108-39fbd1ffd23d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="MTN Special Data Deals" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon" style="color: #ffcc00; background-color: rgba(255, 204, 0, 0.1);">
+                            <i class="fas fa-signal"></i>
+                        </div>
+                        <h3 class="service-title">MTN Special Data <span class="badge">NEW</span></h3>
+                        <p class="service-description">
+                            Exclusive MTN data bundles at the cheapest rates available anywhere. Get high-speed data for browsing, streaming, gaming, and more.
+                        </p>
+                        <a href="mtn-data  streaming, gaming, and more.
+                        </p>
+                        <a href="signup.html" class="service-button">View Plans</a>
+                    </div>
+                </div>
+
+                <!-- Airtime Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Airtime" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3 class="service-title">Airtime</h3>
+                        <p class="service-description">
+                            Purchase airtime for all networks at discounted rates. Recharge your phone or send to loved ones instantly.
+                        </p>
+                        <a href="signup.html" class="service-button">Buy Airtime</a>
+                    </div>
+                </div>
+
+                <!-- Result Checking Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Result Checking" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="service-title">Result Checking</h3>
+                        <p class="service-description">
+                            Check your WAEC, NECO, JAMB, and other examination results easily. Get your result checking pins at affordable rates.
+                        </p>
+                        <a href="signup.html" class="service-button">Check Results</a>
+                    </div>
+                </div>
+
+                <!-- Foreign Phone Numbers Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1523206489230-c012c64b2b48?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Foreign Phone Numbers" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="service-title">Foreign Phone Numbers</h3>
+                        <p class="service-description">
+                            Launch your international business with premium US, UK, or Canadian phone numbers. Perfect for global entrepreneurs and remote teams.
+                        </p>
+                        <a href="signup.html" class="service-button">Get Started</a>
+                    </div>
+                </div>
+
+                <!-- Gaming Rank Boost Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Gaming Rank Boost" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="service-title">Gaming Rank Boost</h3>
+                        <p class="service-description">
+                            Dominate the competition with our professional rank boosting services for COD and Free Fire. Level up your gaming experience today!
+                        </p>
+                        <a href="signup.html" class="service-button">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Cable Subscription Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Cable Subscription" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <h3 class="service-title">Cable Subscription</h3>
+                        <p class="service-description">
+                            Renew your DSTV, GOTV, and Startimes subscriptions at discounted rates. Enjoy uninterrupted entertainment.
+                        </p>
+                        <a href="signup.html" class="service-button">Subscribe Now</a>
+                    </div>
+                </div>
+
+                <!-- Electricity Bill Card -->
+                <div class="service-card">
+                    <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Electricity Bills" class="service-image">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="service-title">Electricity Bills</h3>
+                        <p class="service-description">
+                            Pay your electricity bills conveniently. Support for all distribution companies across Nigeria.
+                        </p>
+                        <a href="signup.html" class="service-button">Pay Bills</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose VeltraWave?</h2>
+                <p class="section-subtitle">We're committed to providing you with the best digital services experience.</p>
+            </div>
+
+            <div class="features">
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title">Instant Delivery</h3>
+                        <p class="feature-description">Get your services delivered instantly with our automated system.</p>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Secure Transactions</h3>
+                        <p class="feature-description">Your payments and personal information are always protected.</p>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h3 class="feature-title">Best Prices</h3>
+                        <p class="feature-description">We offer the most competitive prices in the market.</p>
+                    </div>
+
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="feature-title">24/7 Support</h3>
+                        <p class="feature-description">Our customer support team is always available to help you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <h2 class="cta-title">Ready to Get Started?</h2>
+            <p class="cta-description">Join thousands of satisfied customers who trust VeltraWave for their digital service needs. Sign up today and enjoy our exclusive offers!</p>
+            <a href="signup.html" class="cta-btn">Create an Account</a>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-bolt"></i> VeltraWave
+                    </div>
+                    <p class="footer-description">Your one-stop digital services platform for data, airtime, cable subscriptions, and more.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Services</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="signup.html">Data Plans</a></li>
+                        <li class="footer-link"><a href="signup.html">MTN Special Data</a></li>
+                        <li class="footer-link"><a href="signup">Airtime</a></li>
+                        <li class="footer-link"><a href="signup.html">Cable Subscription</a></li>
+                        <li class="footer-link"><a href="signup.html">Electricity Bills</a></li>
+                        <li class="footer-link"><a href="signup.html">Result Checking</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="home.html">Home</a></li>
+                        <li class="footer-link"><a href="signup.html">Store</a></li>
+                        <li class="footer-link"><a href="about.html">About Us</a></li>
+                        <li class="footer-link"><a href="contact.html">Contact</a></li>
+                        <li class="footer-link"><a href="contact.html">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="tel:+2347067479043"><i class="fas fa-phone-alt"></i> +234 706 747 9043</a></li>
+                        <li class="footer-link"><a href="mailto:support@veltrawave.com"><i class="fas fa-envelope"></i> support@veltrawave.com</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 VeltraWave. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="home.html" class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div class="nav-label">Home</div>
+        </a>
+        <a href="signup.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="nav-label">Store</div>
+        </a>
+        <a href="signup.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-history"></i></div>
+            <div class="nav-label">History</div>
+        </a>
+        <a href="signup.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-tachometer-alt"></i></div>
+            <div class="nav-label">Dashboard</div>
+        </a>
+        <a href="signup.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div class="nav-label">Profile</div>
+        </a>
+    </div>
+
+    <script>
+        // Show toast notification
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMessage.textContent = message;
+            toast.className = isError ? 'toast error' : 'toast success';
+            
+            // Set icon based on type
+            if (isError) {
+                toastIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                `;
+            } else {
+                toastIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                `;
+            }
+            
+            // Show toast
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add animation to service cards
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100 * index);
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

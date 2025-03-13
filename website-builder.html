@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VeltraWave - Website Builder</title>
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+        --primary-color: #1e40af;
+        --secondary-color: #3b82f6;
+        --accent-color: #60a5fa;
+        --light-bg: #f8fafc;
+        --dark-text: #1e293b;
+        --light-text: #f8fafc;
+        --border-color: #e2e8f0;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition-speed: 0.3s;
+        --grey-text: #64748b;
+        --basic-color: #3b82f6;
+        --standard-color: #8b5cf6;
+        --premium-color: #ec4899;
+    }
+
+    body {
+        background-color: var(--light-bg);
+        color: var(--dark-text);
+        min-height: 100vh;
+        position: relative;
+        padding-bottom: 70px; /* Space for bottom nav */
+    }
+
+    /* Container Styles */
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        padding-bottom: 80px;
+    }
+
+    /* Header Styles */
+    .page-header {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        margin-bottom: 1rem;
+    }
+
+    .back-button {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: var(--dark-text);
+        margin-right: 1rem;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .back-button:active {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .page-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    /* Hero Section */
+    .hero-section {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .hero-content {
+        padding: 1.5rem;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .hero-description {
+        color: var(--grey-text);
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    /* Services Grid */
+    .services-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-item {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        padding: 1.25rem;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .service-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .service-icon {
+        width: 50px;
+        height: 50px;
+        background-color: #f0f9ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    .service-title {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--dark-text);
+    }
+
+    .service-description {
+        font-size: 0.8rem;
+        color: var(--grey-text);
+        line-height: 1.4;
+    }
+
+    /* Feature List */
+    .feature-list {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-list-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        text-align: center;
+    }
+
+    .feature-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+    }
+
+    .feature-icon {
+        margin-right: 0.5rem;
+        color: var(--success-color);
+        flex-shrink: 0;
+    }
+
+    /* Pricing Slider */
+    .pricing-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .pricing-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        text-align: center;
+    }
+
+    .pricing-slider-container {
+        position: relative;
+        padding: 0 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .pricing-slider {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+
+    .pricing-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pricing-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pricing-card.selected {
+        border-color: var(--primary-color);
+    }
+
+    .pricing-card.basic {
+        border-top: 4px solid var(--basic-color);
+    }
+
+    .pricing-card.standard {
+        border-top: 4px solid var(--standard-color);
+    }
+
+    .pricing-card.premium {
+        border-top: 4px solid var(--premium-color);
+    }
+
+    .pricing-badge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: var(--premium-color);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 0.25rem 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+    }
+
+    .pricing-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .pricing-price {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+    }
+
+    .pricing-description {
+        font-size: 0.9rem;
+        color: var(--grey-text);
+        margin-bottom: 1rem;
+        line-height: 1.4;
+    }
+
+    .pricing-features {
+        margin-bottom: 1rem;
+    }
+
+    .pricing-feature {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .pricing-feature-icon {
+        margin-right: 0.5rem;
+        color: var(--success-color);
+        flex-shrink: 0;
+    }
+
+    .pricing-slider-controls {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .slider-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #e2e8f0;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .slider-dot.active {
+        background-color: var(--primary-color);
+        transform: scale(1.2);
+    }
+
+    .slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    .slider-arrow-left {
+        left: 0;
+    }
+
+    .slider-arrow-right {
+        right: 0;
+    }
+
+    /* Form Styles */
+    .form-section {
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+
+    .form-header {
+        background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .form-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-subtitle {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    .form-content {
+        padding: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+        border-color: var(--primary-color);
+        outline: none;
+    }
+
+    .form-textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .form-features-title {
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+    }
+
+    .features-section {
+        background-color: #f8fafc;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .features-title {
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+    }
+
+    .form-checkbox-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .form-checkbox-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-checkbox {
+        margin-right: 0.5rem;
+    }
+
+    .form-submit {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+        background: linear-gradient(135deg, var(--primary-color), #1e3a8a);
+        color: white;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    .form-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+    }
+
+    /* Toast Notification */
+    .toast {
+        position: fixed;
+        right: -300px;
+        top: 20px;
+        padding: 12px 24px;
+        background-color: #333;
+        color: white;
+        border-radius: 6px;
+        font-size: 14px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s ease-in-out;
+        max-width: 280px;
+        display: flex;
+        align-items: center;
+    }
+
+    .toast.show {
+        right: 20px;
+    }
+
+    .toast.success {
+        background-color: var(--success-color);
+    }
+
+    .toast.error {
+        background-color: var(--danger-color);
+    }
+
+    .toast-icon {
+        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Badge */
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-left: 0.5rem;
+    }
+
+    .badge-hot {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: space-around;
+        padding: 0.75rem 0;
+        box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        border-top: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #64748b;
+        text-decoration: none;
+        font-size: 0.7rem;
+        transition: color var(--transition-speed);
+    }
+
+    .nav-item.active {
+        color: var(--primary-color);
+    }
+
+    .nav-icon {
+        font-size: 1.2rem;
+        margin-bottom: 0.25rem;
+        position: relative;
+    }
+
+    .nav-item.active .nav-icon::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 480px) {
+        .services-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .feature-columns {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="page-header">
+        <button class="back-button" onclick="goToStore()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        <h1 class="page-title">Website Builder</h1>
+    </div>
+
+    <div class="hero-section">
+        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Website Builder" class="hero-image">
+        <div class="hero-content">
+            <h2 class="hero-title">Get Your Custom Website Today! <span class="badge badge-hot">HOT</span></h2>
+            <p class="hero-description">
+                Need a professional website? We'll build the perfect site for you! Whether you need a VTU site, a portfolio, a personal brand website, or an in-game store, we've got you covered.
+            </p>
+        </div>
+    </div>
+
+    <h3 class="pricing-title">What We Offer</h3>
+    <div class="services-grid">
+        <div class="service-item">
+            <div class="service-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+            </div>
+            <h4 class="service-title">VTU Websites</h4>
+            <p class="service-description">Sell data, airtime, and utility bills effortlessly</p>
+        </div>
+        
+        <div class="service-item">
+            <div class="service-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.5 2v6h-6"></path>
+                    <path d="M2.5 22v-6h6"></path>
+                    <path d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2"></path>
+                </svg>
+            </div>
+            <h4 class="service-title">In-Game Stores</h4>
+            <p class="service-description">Telegram integration for game items and accounts</p>
+        </div>
+        
+        <div class="service-item">
+            <div class="service-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                </svg>
+            </div>
+            <h4 class="service-title">Portfolio Sites</h4>
+            <p class="service-description">Showcase your work and achievements in style</p>
+        </div>
+        
+        <div class="service-item">
+            <div class="service-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            <h4 class="service-title">Business Sites</h4>
+            <p class="service-description">Professional websites for your company or brand</p>
+        </div>
+    </div>
+
+    <div class="feature-list">
+        <h3 class="feature-list-title">Features Included With Every Website</h3>
+        
+        <div class="feature-columns">
+            <div>
+                <div class="feature-item">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Mobile-friendly design</span>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Fast-loading pages</span>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Custom domain setup</span>
+                </div>
+            </div>
+            
+            <div>
+                <div class="feature-item">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Secure hosting</span>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>SEO optimization</span>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span>Social media links</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pricing-section">
+        <h3 class="pricing-title">Choose Your Plan</h3>
+        
+        <div class="pricing-slider-container">
+            <div class="slider-arrow slider-arrow-left" onclick="slidePricing('left')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </div>
+            
+            <div class="pricing-slider" id="pricingSlider">
+                <div class="pricing-card basic" data-plan="basic" onclick="selectPlan(this, 'basic')">
+                    <h4 class="pricing-name">Basic</h4>
+                    <div class="pricing-price">₦70,000</div>
+                    <p class="pricing-description">Perfect for small businesses and personal websites</p>
+                    
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Up to 5 pages</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Basic contact form</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>1 month free support</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Mobile responsive</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pricing-card standard" data-plan="standard" onclick="selectPlan(this, 'standard')">
+                    <h4 class="pricing-name">Standard</h4>
+                    <div class="pricing-price">₦150,000</div>
+                    <p class="pricing-description">Ideal for growing businesses and professional portfolios</p>
+                    
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Up to 10 pages</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-lin  height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Advanced contact form</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>3 months free support</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Basic SEO setup</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Social media integration</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pricing-card premium" data-plan="premium" onclick="selectPlan(this, 'premium')">
+                    <div class="pricing-badge">BEST VALUE</div>
+                    <h4 class="pricing-name">Premium</h4>
+                    <div class="pricing-price">₦250,000</div>
+                    <p class="pricing-description">Complete solution for businesses that need advanced features</p>
+                    
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Unlimited pages</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>E-commerce functionality</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>6 months free support</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Advanced SEO optimization</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Payment gateway integration</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <span class="pricing-feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </span>
+                            <span>Custom admin dashboard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-arrow slider-arrow-right" onclick="slidePricing('right')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="pricing-slider-controls" id="sliderDots">
+            <div class="slider-dot active" data-index="0" onclick="scrollToCard(0)"></div>
+            <div class="slider-dot" data-index="1" onclick="scrollToCard(1)"></div>
+            <div class="slider-dot" data-index="2" onclick="scrollToCard(2)"></div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-header">
+            <h3 class="form-title">Ready to Get Started?</h3>
+            <p class="form-subtitle">Fill out the form below and let's build your perfect website!</p>
+        </div>
+        
+        <div class="form-content">
+            <form id="websiteRequestForm" onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name *</label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="websiteType" class="form-label">Website Type *</label>
+                    <select id="websiteType" name="websiteType" class="form-select" required>
+                        <option value="" disabled selected>Select website type</option>
+                        <option value="vtu">VTU Website</option>
+                        <option value="telegram">Telegram In-Game Store</option>
+                        <option value="portfolio">Portfolio Website</option>
+                        <option value="personal">Personal Brand Website</option>
+                        <option value="business">Business Website</option>
+                        <option value="ecommerce">E-Commerce Store</option>
+                        <option value="custom">Custom (Specify in description)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="selectedPlan" class="form-label">Selected Plan *</label>
+                    <select id="selectedPlan" name="selectedPlan" class="form-select" required>
+                        <option value="" disabled selected>Select your plan</option>
+                        <option value="basic">Basic - ₦70,000</option>
+                        <option value="standard">Standard - ₦150,000</option>
+                        <option value="premium">Premium - ₦250,000</option>
+                        <option value="custom">Custom Quote</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="timeline" class="form-label">Timeline *</label>
+                    <select id="timeline" name="timeline" class="form-select" required>
+                        <option value="" disabled selected>Select timeline</option>
+                        <option value="urgent">Urgent (1-3 days)</option>
+                        <option value="standard">Standard (1-2 weeks)</option>
+                        <option value="relaxed">Relaxed (2-4 weeks)</option>
+                        <option value="flexible">Flexible (No rush)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <h4 class="form-features-title">Additional Features</h4>
+                    
+                    <div class="features-section">
+                        <h5 class="features-title">Standard Features (Included in all plans)</h5>
+                        <div class="form-checkbox-group">
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="feature1" name="features" value="responsive" checked disabled>
+                                <label for="feature1">Mobile Responsive</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="feature2" name="features" value="contact" checked disabled>
+                                <label for="feature2">Contact Form</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="feature3" name="features" value="social" checked disabled>
+                                <label for="feature3">Social Media Links</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="feature4" name="features" value="seo" checked disabled>
+                                <label for="feature4">Basic SEO</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="features-section">
+                        <h5 class="features-title">Extra Features (Additional cost may apply)</h5>
+                        <div class="form-checkbox-group">
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra1" name="extras" value="payment">
+                                <label for="extra1">Payment Integration</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra2" name="extras" value="blog">
+                                <label for="extra2">Blog Section</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra3" name="extras" value="admin">
+                                <label for="extra3">Admin Dashboard</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra4" name="extras" value="analytics">
+                                <label for="extra4">Advanced Analytics</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra5" name="extras" value="chat">
+                                <label for="extra5">Live Chat</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra6" name="extras" value="membership">
+                                <label for="extra6">Membership System</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra7" name="extras" value="multilingual">
+                                <label for="extra7">Multilingual Support</label>
+                            </div>
+                            <div class="form-checkbox-item">
+                                <input type="checkbox" id="extra8" name="extras" value="custom">
+                                <label for="extra8">Custom Functionality</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description" class="form-label">Project Description *</label>
+                    <textarea id="description" name="description" class="form-textarea" placeholder="Please describe your website requirements in detail..." required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reference" class="form-label">Reference Websites (Optional)</label>
+                    <textarea id="reference" name="reference" class="form-textarea" placeholder="List any websites you like the design or functionality of..."></textarea>
+                </div>
+                
+                <button type="submit" class="form-submit">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon" id="toastIcon"></div>
+        <div id="toastMessage"></div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+            <span>Home</span>
+        </a>
+        <a href="store.html" class="nav-item active">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                </svg>
+            </div>
+            <span>Store</span>
+        </a>
+        <a href="store.html" class="nav-item">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+            </div>
+            <span>Numbers</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <div class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path>
+                </svg>
+            </div>
+            <span>Profile</span>
+        </a>
+    </div>
+</div>
+
+<script>
+    // Show toast notification
+    function showToast(message, isError = false) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        
+        // Clear any existing timeout
+        if (window.toastTimeout) {
+            clearTimeout(window.toastTimeout);
+        }
+        
+        toastMessage.textContent = message;
+        toast.className = isError ? 'toast error show' : 'toast success show';
+        
+        // Set icon based on type
+        if (isError) {
+            toastIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+            `;
+        } else {
+            toastIcon.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            `;
+        }
+        
+        // Hide toast after 3 seconds
+        window.toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+    
+    // Form submission
+    function submitForm(event) {
+        event.preventDefault();
+        
+        // Get form data
+        const form = document.getElementById('websiteRequestForm');
+        const formData = new FormData(form);
+        
+        // Validate form
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const phone = formData.get('phone');
+        const websiteType = formData.get('websiteType');
+        const selectedPlan = formData.get('selectedPlan');
+        const description = formData.get('description');
+        
+        if (!name || !email || !phone || !websiteType || !selectedPlan || !description) {
+            showToast('Please fill in all required fields', true);
+            return;
+        }
+        
+        // Show loading state
+        const submitButton = form.querySelector('.form-submit');
+        const originalButtonText = submitButton.textContent;
+        submitButton.textContent = 'Submitting...';
+        submitButton.disabled = true;
+        
+        // Simulate form submission
+        setTimeout(() => {
+            showToast('Your website request has been submitted successfully! We will contact you shortly.', false);
+            
+            // Reset form
+            form.reset();
+            
+            // Reset button
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }, 2000);
+    }
+    
+    // Go back to store
+    function goToStore() {
+        showToast('Returning to store...', false);
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+    
+    // Pricing slider functionality
+    let currentCardIndex = 0;
+    const slider = document.getElementById('pricingSlider');
+    const cards = slider.querySelectorAll('.pricing-card');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    // Select a pricing plan
+    function selectPlan(element, plan) {
+        // Reset previous selection
+        document.querySelectorAll('.pricing-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // Set new selection
+        element.classList.add('selected');
+        
+        // Update the form dropdown
+        const planSelect = document.getElementById('selectedPlan');
+        planSelect.value = plan;
+        
+        // Show toast notification
+        const planNames = {
+            'basic': 'Basic - ₦70,000',
+            'standard': 'Standard - ₦150,000',
+            'premium': 'Premium - ₦250,000'
+        };
+        
+        showToast(`Selected plan: ${planNames[plan]}`, false);
+    }
+    
+    // Slide pricing cards
+    function slidePricing(direction) {
+        if (direction === 'left') {
+            currentCardIndex = Math.max(0, currentCardIndex - 1);
+        } else {
+            currentCardIndex = Math.min(cards.length - 1, currentCardIndex + 1);
+        }
+        
+        scrollToCard(currentCardIndex);
+    }
+    
+    // Scroll to specific card
+    function scrollToCard(index) {
+        currentCardIndex = index;
+        
+        // Calculate scroll position
+        const cardWidth = cards[0].offsetWidth;
+        const gap = 16; // 1rem gap
+        const scrollPosition = index * (cardWidth + gap);
+        
+        // Smooth scroll to position
+        slider.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+        
+        // Update dots
+        updateDots(index);
+    }
+    
+    // Update slider dots
+    function updateDots(index) {
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+    
+    // Initialize with a welcome toast
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            showToast('Welcome to VeltraWave Website Builder!', false);
+        }, 1000);
+        
+        // Set up scroll event for slider
+        slider.addEventListener('scroll', function() {
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 16; // 1rem gap
+            const scrollPosition = slider.scrollLeft;
+            
+            // Calculate current card index based on scroll position
+            const index = Math.round(scrollPosition / (cardWidth + gap));
+            
+            if (index !== currentCardIndex) {
+                currentCardIndex = index;
+                updateDots(index);
+            }
+        });
+    });
+</script>
+</body>
+</html>

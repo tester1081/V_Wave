@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>N3TData - Buy Airtime</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-color: #1e40af;
+      --secondary-color: #3b82f6;
+      --accent-color: #60a5fa;
+      --light-bg: #f8fafc;
+      --dark-text: #1e293b;
+      --light-text: #f8fafc;
+      --border-color: #e2e8f0;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --transition-speed: 0.3s;
+      --mtn-color: #ffcc00;
+      --glo-color: #00aa4f;
+      --airtel-color: #ff0000;
+      --mobile9-color: #006633;
+      --grey-text: #64748b;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 70px; /* Space for bottom nav */
+    }
+
+    /* Data Page Styles */
+    .data-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1rem;
+      padding-bottom: 80px;
+    }
+
+    /* Header Styles */
+    .page-header {
+      display: flex;
+      align-items: center;
+      padding: 1rem 0;
+      margin-bottom: 1.5rem;
+    }
+
+    .back-button {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--dark-text);
+      margin-right: 1rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-button:active {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .page-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    /* Network Slider */
+    .network-slider-container {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .slider-indicators {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #e2e8f0;
+      margin: 0 4px;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background-color: var(--primary-color);
+      width: 20px;
+      border-radius: 4px;
+    }
+
+    .network-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      gap: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .network-slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .network-option {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .network-option:hover {
+      transform: translateY(-5px);
+    }
+
+    .network-option.selected {
+      background-color: #eff6ff;
+      border: 2px solid var(--secondary-color);
+    }
+
+    .network-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .network-option.mtn .network-image {
+      background-color: var(--mtn-color);
+    }
+
+    .network-option.glo .network-image {
+      background-color: var(--glo-color);
+    }
+
+    .network-option.airtel .network-image {
+      background-color: var(--airtel-color);
+    }
+
+    .network-option.mobile9 .network-image {
+      background-color: var(--mobile9-color);
+    }
+
+    .network-logo {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 2rem;
+    }
+
+    .network-name {
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .network-option.mtn .network-name {
+      color: var(--mtn-color);
+    }
+
+    .network-option.glo .network-name {
+      color: var(--glo-color);
+    }
+
+    .network-option.airtel .network-name {
+      color: var(--airtel-color);
+    }
+
+    .network-option.mobile9 .network-name {
+      color: var(--mobile9-color);
+    }
+
+    /* Form Styles */
+    .form-container {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--grey-text);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--grey-text);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      transition: all var(--transition-speed);
+      color: var(--dark-text);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .form-input.network-display {
+      background-color: #f1f5f9;
+      font-weight: 600;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-speed);
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #1e3a8a;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary:disabled {
+      background-color: #93c5fd;
+      cursor: not-allowed;
+    }
+
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+
+    /* Quick Amount Buttons */
+    .quick-amount-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quick-amount-button {
+      flex: 1;
+      padding: 0.75rem;
+      background-color: var(--light-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-speed);
+      color: var(--dark-text);
+    }
+
+    .quick-amount-button:hover {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .quick-amount-button:active {
+      transform: scale(0.98);
+    }
+
+    /* Naira Icon */
+    .naira-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1rem;
+      font-weight: bold;
+      color: var(--dark-text);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      background-color: #333;
+      color: white;
+      border-radius: 6px;
+      font-size: 14px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .toast.success {
+      background-color: var(--success-color);
+    }
+
+    .toast.error {
+      background-color: var(--danger-color);
+    }
+
+    /* Loading Spinner */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+    }
+
+    /* Custom Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-speed);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: var(--card-shadow);
+      width: 90%;
+      max-width: 400px;
+      padding: 1.5rem;
+      transform: translateY(-20px);
+      transition: all var(--transition-speed);
+    }
+
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--dark-text);
+    }
+
+    .modal-body {
+      margin-bottom: 1.5rem;
+      color: var(--grey-text);
+    }
+
+    .modal-body .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .modal-body .summary-label {
+      font-weight: 500;
+      color: var(--dark-text);
+    }
+
+    .modal-body .summary-value {
+      font-weight: 600;
+      color: var(--dark-text);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    .modal-footer .btn {
+      padding: 0.5rem 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="data-container">
+    <div class="page-header">
+      <button class="back-button" onclick="window.location.href='dashboard.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"></path>
+          <path d="M12 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+      <h1 class="page-title">Buy Airtime</h1>
+    </div>
+
+    <!-- Network Slider -->
+    <div class="network-slider-container">
+      <div class="slider-indicators" id="sliderIndicators">
+        <div class="indicator active" data-index="0"></div>
+        <div class="indicator" data-index="1"></div>
+        <div class="indicator" data-index="2"></div>
+        <div class="indicator" data-index="3"></div>
+      </div>
+      <div class="network-slider" id="networkSlider">
+        <div class="network-option mtn" data-network="MTN" data-network-id="1">
+          <div class="network-image">
+            <div class="network-logo">M</div>
+          </div>
+          <div class="network-name">MTN</div>
+        </div>
+        <div class="network-option airtel" data-network="AIRTEL" data-network-id="2">
+          <div class="network-image">
+            <div class="network-logo">A</div>
+          </div>
+          <div class="network-name">Airtel</div>
+        </div>
+        <div class="network-option glo" data-network="GLO" data-network-id="3">
+          <div class="network-image">
+            <div class="network-logo">G</div>
+          </div>
+          <div class="network-name">Glo</div>
+        </div>
+        <div class="network-option mobile9" data-network="9MOBILE" data-network-id="4">
+          <div class="network-image">
+            <div class="network-logo">9</div>
+          </div>
+          <div class="network-name">9mobile</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+      <form id="airtimeForm">
+        <div class="form-group">
+          <label for="selectedNetwork" class="form-label">Selected Network</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+            <input type="text" id="selectedNetwork" class="form-input network-display" readonly placeholder="Select a network above">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phoneNumber" class="form-label">Phone Number</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <input type="text" id="phoneNumber" class="form-input" placeholder="Enter 11-digit phone number" maxlength="11">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount" class="form-label">Amount (₦)</label>
+          <div class="input-wrapper">
+            <span class="naira-icon">₦</span>
+            <input type="number" id="amount" class="form-input" placeholder="Enter amount" min="50" max="50000" step="1">
+          </div>
+        </div>
+
+        <!-- Quick Amount Buttons -->
+        <div class="quick-amount-buttons">
+          <button type="button" class="quick-amount-button" data-amount="100">₦100</button>
+          <button type="button" class="quick-amount-button" data-amount="200">₦200</button>
+          <button type="button" class="quick-amount-button" data-amount="500">₦500</button>
+          <button type="button" class="quick-amount-button" data-amount="1000">₦1000</button>
+        </div>
+
+        <button type="submit" id="submitButton" class="btn btn-primary btn-block" disabled>
+          <span id="buttonText">Buy Airtime</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Custom Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">Confirm Purchase</div>
+      <div class="modal-body" id="modalBody">
+        <!-- Purchase details will be inserted here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="confirmPurchase">Confirm</button>
+        <button class="btn btn-danger" id="cancelPurchase">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // API credentials
+    const ACCESS_TOKEN = "3cfedeade5a3a75342ce13245ac4de9e9b3ca0aaf86a05a5aa1447c12d7d";
+
+    // DOM elements
+    const networkSlider = document.getElementById('networkSlider');
+    const sliderIndicators = document.getElementById('sliderIndicators');
+    const networkOptions = document.querySelectorAll('.network-option');
+    const selectedNetworkInput = document.getElementById('selectedNetwork');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const amountInput = document.getElementById('amount');
+    const submitButton = document.getElementById('submitButton');
+    const toast = document.getElementById('toast');
+    const form = document.getElementById('airtimeForm');
+    const quickAmountButtons = document.querySelectorAll('.quick-amount-button');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalBody = document.getElementById('modalBody');
+    const confirmPurchaseBtn = document.getElementById('confirmPurchase');
+    const cancelPurchaseBtn = document.getElementById('cancelPurchase');
+
+    // State variables
+    let selectedNetwork = '';
+    let selectedNetworkId = null;
+    let selectedAmount = 0;
+    let activeSlideIndex = 0;
+    let isLoading = false;
+
+    // Initialize slider
+    function initSlider() {
+      // Set up slider scroll event
+      networkSlider.addEventListener('scroll', handleSliderScroll);
+
+      // Set up indicator clicks
+      const indicators = document.querySelectorAll('.indicator');
+      indicators.forEach(indicator => {
+        indicator.addEventListener('click', () => {
+          const index = parseInt(indicator.dataset.index);
+          scrollToSlide(index);
+        });
+      });
+
+      // Set up network option clicks
+      networkOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          const network = option.dataset.network;
+          const networkId = parseInt(option.dataset.networkId);
+          selectNetwork(network, networkId, option);
+        });
+      });
+    }
+
+    // Handle slider scroll
+    function handleSliderScroll() {
+      const scrollPosition = networkSlider.scrollLeft;
+      const slideWidth = networkSlider.clientWidth;
+      const newActiveSlide = Math.round(scrollPosition / slideWidth);
+
+      if (newActiveSlide !== activeSlideIndex) {
+        activeSlideIndex = newActiveSlide;
+        updateIndicators();
+        selectNetworkOnScroll();
+      }
+    }
+
+    // Select network on scroll
+    function selectNetworkOnScroll() {
+      const activeSlide = networkSlider.children[activeSlideIndex];
+      const network = activeSlide.dataset.network;
+      const networkId = parseInt(activeSlide.dataset.networkId);
+      selectNetwork(network, networkId, activeSlide);
+    }
+
+    // Update slider indicators
+    function updateIndicators() {
+      const indicators = document.querySelectorAll('.indicator');
+      indicators.forEach((indicator, index) => {
+        if (index === activeSlideIndex) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      });
+    }
+
+    // Scroll to specific slide
+    function scrollToSlide(index) {
+      const slideWidth = networkSlider.clientWidth;
+      networkSlider.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
+      });
+    }
+
+    // Select network
+    function selectNetwork(network, networkId, element) {
+      // Reset previous selection
+      networkOptions.forEach(opt => opt.classList.remove('selected'));
+
+      // Set new selection
+      element.classList.add('selected');
+      selectedNetwork = network;
+      selectedNetworkId = networkId;
+      selectedNetworkInput.value = network;
+
+      // Update button state
+      updateSubmitButtonState();
+    }
+
+    // Format currency
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    }
+
+    // Show toast notification
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.className = isError ? 'toast error' : 'toast success';
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+
+    // Update submit button state
+    function updateSubmitButtonState() {
+      const isFormValid =
+        selectedNetwork &&
+        phoneNumberInput.value.length === 11 &&
+        /^\d+$/.test(phoneNumberInput.value) &&
+        amountInput.value &&
+        parseInt(amountInput.value) >= 50 &&
+        !isLoading;
+
+      submitButton.disabled = !isFormValid;
+    }
+
+    // Set loading state
+    function setLoading(loading) {
+      isLoading = loading;
+
+      if (loading) {
+        submitButton.innerHTML = `
+          <span class="loading"></span>
+          Processing...
+        `;
+      } else {
+        submitButton.innerHTML = 'Buy Airtime';
+      }
+
+      submitButton.disabled = loading;
+    }
+
+    // Show modal
+    function showModal() {
+      modalOverlay.classList.add('active');
+    }
+
+    // Hide modal
+    function hideModal() {
+      modalOverlay.classList.remove('active');
+    }
+
+    // Event listeners
+    phoneNumberInput.addEventListener('input', function() {
+      // Allow only digits
+      this.value = this.value.replace(/\D/g, '');
+      updateSubmitButtonState();
+    });
+
+    amountInput.addEventListener('input', function() {
+      updateSubmitButtonState();
+    });
+
+    // Quick Amount Buttons
+    quickAmountButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const amount = this.dataset.amount;
+        amountInput.value = amount;
+        updateSubmitButtonState();
+      });
+    });
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!selectedNetwork || phoneNumberInput.value.length !== 11 || !amountInput.value) {
+        showToast('Please fill in all required fields correctly', true);
+        return;
+      }
+
+      // Prepare summary message for confirmation
+      selectedAmount = parseInt(amountInput.value);
+      modalBody.innerHTML = `
+        <p>Are you sure you want to buy ${formatCurrency(selectedAmount)} airtime for ${phoneNumberInput.value}?</p>
+        <div class="summary-row">
+          <span class="summary-label">Network:</span>
+          <span class="summary-value">${selectedNetwork}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Phone Number:</span>
+          <span class="summary-value">${phoneNumberInput.value}</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Amount:</span>
+          <span class="summary-value">${formatCurrency(selectedAmount)}</span>
+        </div>
+      `;
+
+      // Show custom modal
+      showModal();
+    });
+
+    // Confirm purchase
+    confirmPurchaseBtn.addEventListener('click', async function() {
+      hideModal();
+      setLoading(true);
+
+      try {
+        // Generate a unique request ID
+        const requestId = `Airtime_${Date.now()}${Math.floor(Math.random() * 1000)}`;
+
+        // Prepare the request payload
+        const payload = {
+          network: selectedNetworkId,
+          phone: phoneNumberInput.value,
+          plan_type: 'VTU',
+          amount: parseInt(amountInput.value),
+          bypass: false,
+          "request-id": requestId
+        };
+
+        console.log("Sending request payload:", payload);
+
+        // Make the API call
+        const response = await fetch('https://n3tdata.com/api/topup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${ACCESS_TOKEN}`
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const responseData = await response.json();
+        console.log("API Response:", responseData);
+
+        if (responseData.status === 'success') {
+          showToast(`${formatCurrency(selectedAmount)} airtime has been purchased for ${phoneNumberInput.value}`);
+        } else {
+          showToast(responseData.message || 'There was an error processing your request.', true);
+        }
+      } catch (error) {
+        console.error("Error purchasing airtime:", error);
+        showToast('Network error or server is unreachable. Please try again.', true);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    // Cancel purchase
+    cancelPurchaseBtn.addEventListener('click', function() {
+      hideModal();
+    });
+
+    // Initialize the page
+    initSlider();
+  </script>
+</body>
+</html>
