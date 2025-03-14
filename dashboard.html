@@ -1395,6 +1395,315 @@
         .fade-in {
             animation: fadeIn 0.3s ease-out forwards;
         }
+
+        /* NEW STYLES FOR STORE FOCUS */
+        
+        /* Sliding Banner */
+        .sliding-banner {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            position: relative;
+            box-shadow: var(--card-shadow);
+        }
+
+        .banner-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 400%;
+        }
+
+        .banner-slide {
+            width: 25%;
+            flex-shrink: 0;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            min-height: 120px;
+        }
+
+        .banner-slide:nth-child(1) {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .banner-slide:nth-child(2) {
+            background: linear-gradient(135deg, #0ea5e9, #2563eb);
+        }
+
+        .banner-slide:nth-child(3) {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .banner-slide:nth-child(4) {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+
+        .banner-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .banner-text {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .banner-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .banner-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .banner-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .banner-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s;
+        }
+
+        .banner-indicator.active {
+            background-color: white;
+        }
+
+        /* Store Popup */
+        .store-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 350px;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .store-popup.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .store-popup-header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+        }
+
+        .store-popup-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .store-popup-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .store-popup-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        .store-popup-close:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .store-popup-content {
+            padding: 1.5rem;
+        }
+
+        .store-popup-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .store-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .store-feature:last-child {
+            margin-bottom: 0;
+        }
+
+        .store-feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(79, 70, 229, 0.1);
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .store-feature-text {
+            font-size: 0.9rem;
+        }
+
+        .store-popup-btn {
+            display: block;
+            width: 100%;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .store-popup-btn:hover {
+            background-color: #4338ca;
+        }
+
+        /* Enhanced Store Card */
+        .store-card {
+            grid-column: span 3;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+            }
+        }
+
+        .store-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .store-card-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .store-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .store-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .store-card-text {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .store-card-btn {
+            background-color: white;
+            color: #4f46e5;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .store-card-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -1405,6 +1714,48 @@
     <div id="toast" class="toast">
         <div class="toast-icon" id="toastIcon"></div>
         <div id="toastMessage"></div>
+    </div>
+    
+    <!-- Store Popup -->
+    <div class="store-popup" id="storePopup">
+        <div class="store-popup-header">
+            <h2 class="store-popup-title">Visit Our Store!</h2>
+            <p class="store-popup-subtitle">Discover amazing products and services</p>
+            <button class="store-popup-close" id="closeStorePopup">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="store-popup-content">
+            <div class="store-popup-features">
+                <div class="store-feature">
+                    <div class="store-feature-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <div class="store-feature-text">
+                        <strong>Exclusive Deals</strong> - Special offers just for you
+                    </div>
+                </div>
+                <div class="store-feature">
+                    <div class="store-feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="store-feature-text">
+                        <strong>Fast Delivery</strong> - Get your items quickly
+                    </div>
+                </div>
+                <div class="store-feature">
+                    <div class="store-feature-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="store-feature-text">
+                        <strong>Top Products</strong> - Quality items at great prices
+                    </div>
+                </div>
+            </div>
+            <a href="store.html" class="store-popup-btn">
+                Visit Store Now
+            </a>
+        </div>
     </div>
     
     <!-- Notification Panel -->
@@ -1488,6 +1839,38 @@
             </div>
         </div>
         
+        <!-- NEW: Sliding Banner -->
+        <div class="sliding-banner">
+            <div class="banner-container" id="bannerContainer">
+                <div class="banner-slide">
+                    <h3 class="banner-title">Visit Our Store</h3>
+                    <p class="banner-text">Discover amazing products at great prices</p>
+                    <button class="banner-btn" onclick="window.location.href='store.html'">Shop Now</button>
+                </div>
+                <div class="banner-slide">
+                    <h3 class="banner-title">Data Bundles</h3>
+                    <p class="banner-text">Stay connected with affordable data plans</p>
+                    <button class="banner-btn" onclick="window.location.href='data.html'">Get Data</button>
+                </div>
+                <div class="banner-slide">
+                    <h3 class="banner-title">Airtime Topup</h3>
+                    <p class="banner-text">Quick and easy airtime recharge</p>
+                    <button class="banner-btn" onclick="window.location.href='airtime.html'">Recharge Now</button>
+                </div>
+                <div class="banner-slide">
+                    <h3 class="banner-title">Store Deals</h3>
+                    <p class="banner-text">Limited time offers you don't want to miss</p>
+                    <button class="banner-btn" onclick="window.location.href='store.html'">View Deals</button>
+                </div>
+            </div>
+            <div class="banner-indicators">
+                <div class="banner-indicator active"></div>
+                <div class="banner-indicator"></div>
+                <div class="banner-indicator"></div>
+                <div class="banner-indicator"></div>
+            </div>
+        </div>
+        
         <div class="balance-card">
             <div class="balance-label">Available Balance</div>
             <div class="balance-amount" id="balanceDisplay">
@@ -1504,10 +1887,21 @@
             </div>
         </div>
         
+        <!-- NEW: Enhanced Store Card -->
+        <div class="store-card">
+            <div class="store-card-content">
+                <div class="store-card-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h3 class="store-card-title">VeltraWave Store</h3>
+                <p class="store-card-text">Discover amazing products and services at unbeatable prices</p>
+                <button class="store-card-btn" onclick="window.location.href='store.html'">Shop Now</button>
+            </div>
+        </div>
+        
         <div class="quick-actions">
             <div class="section-header">
                 <h2 class="section-title">Quick Actions</h2>
-                
             </div>
             <div class="cards-grid">
                 <div class="service-card" onclick="window.location.href='result.html'">
@@ -1546,19 +1940,12 @@
                     </div>
                     <h3 class="service-title">Cable</h3>
                 </div>
-                <div class="service-card" onclick="window.location.href='store.html'">
-                    <div class="service-icon">
-                        <i class="fas fa-shopping-bag"></i>
-                    </div>
-                    <h3 class="service-title">Store</h3>
-                </div>
             </div>
         </div>
         
         <div class="recent-transactions">
             <div class="section-header">
                 <h2 class="section-title">Recent Transactions</h2>
-            
             </div>
             <div class="transaction-list">
                 <div class="transaction-item">
@@ -2066,7 +2453,10 @@
             <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
             <div class="nav-label">Games</div>
         </a>
- 
+        <a href="store.html" class="nav-item">
+            <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="nav-label">Store</div>
+        </a>
         <a href="profile.html" class="nav-item">
             <div class="nav-icon"><i class="fas fa-user"></i></div>
             <div class="nav-label">Profile</div>
@@ -2114,6 +2504,7 @@
             } else {
                 notificationPanel.style.display = 'block';
                 profilePanel.style.display = 'none';
+                storePopup.classList.remove('show');
                 overlay.style.display = 'block';
             }
         });
@@ -2134,6 +2525,7 @@
             } else {
                 profilePanel.style.display = 'block';
                 notificationPanel.style.display = 'none';
+                storePopup.classList.remove('show');
                 overlay.style.display = 'block';
             }
         });
@@ -2142,6 +2534,7 @@
         overlay.addEventListener('click', function() {
             notificationPanel.style.display = 'none';
             profilePanel.style.display = 'none';
+            storePopup.classList.remove('show');
             overlay.style.display = 'none';
         });
         
@@ -2236,6 +2629,56 @@
                 setTimeout(() => {
                     element.classList.add('fade-in');
                 }, index * 100);
+            });
+            
+            // Show store popup after a delay
+            setTimeout(() => {
+                document.getElementById('storePopup').classList.add('show');
+                document.getElementById('overlay').style.display = 'block';
+            }, 2000);
+        });
+        
+        // Store Popup
+        const storePopup = document.getElementById('storePopup');
+        const closeStorePopup = document.getElementById('closeStorePopup');
+        
+        closeStorePopup.addEventListener('click', function() {
+            storePopup.classList.remove('show');
+            overlay.style.display = 'none';
+        });
+        
+        // Banner Slider
+        const bannerContainer = document.getElementById('bannerContainer');
+        const indicators = document.querySelectorAll('.banner-indicator');
+        let currentSlide = 0;
+        const slideCount = 4;
+        
+        function updateBanner() {
+            bannerContainer.style.transform = `translateX(-${currentSlide * 25}%)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+        
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slideCount;
+            updateBanner();
+        }
+        
+        // Auto slide the banner
+        setInterval(nextSlide, 5000);
+        
+        // Allow clicking on indicators to change slides
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                updateBanner();
             });
         });
     </script>
